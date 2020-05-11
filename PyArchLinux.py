@@ -1,5 +1,5 @@
 #
-# PyArchLinux Installer 0.1
+# PyArchLinux Installer 0.2
 # by odziom91
 #
 
@@ -8,26 +8,45 @@ import os as o
 import subprocess as s
 import time as t
 
+# colors
+cyan_black = "\033[1;36;40m " # text cyan, background black
+white_black = "\033[1;37;40m " # text white, background black
+white_cyan = "\033[1;37;46m " # white text, background cyan
+
+# vars
+keymap = "pl"
+locale = "pl_PL.UTF-8 UTF-8"
+locale2 = "pl_PL.UTF-8"
+
 # clear screen function
 def clear():
     o.system("clear")
 
 # PyArchLinux Installer ASCII logo
 def arch_logo():
-    print(r'')
-    print(r'__________          _____               .__    .____    .__                      ')
-    print(r'\______   \___.__. /  _  \_______  ____ |  |__ |    |   |__| ____  __ _____  ___ ')
-    print(r' |     ___<   |  |/  /_\  \_  __ _/ ___\|  |  \|    |   |  |/    \|  |  \  \/  / ')
-    print(r' |    |    \___  /    |    |  | \\  \___|   Y  |    |___|  |   |  |  |  />    <  ')
-    print(r' |____|    / ____\____|__  |__|   \___  |___|  |_______ |__|___|  |____//__/\_ \ ')
-    print(r'           \/            \/           \/     \/        \/       \/            \/ ')
-    print(r'  .___                __         .__  .__                  _______       ____    ')
-    print(r'  |   | ____   ______/  |______  |  | |  |   ___________   \   _  \     /_   |   ')
-    print(r'  |   |/    \ /  ___\   __\__  \ |  | |  | _/ __ \_  __ \  /  /_\  \     |   |   ')
-    print(r'  |   |   |  \\___ \ |  |  / __ \|  |_|  |_\  ___/|  | \/  \  \_/   \    |   |   ')
-    print(r'  |___|___|  /____  >|__| (____  |____|____/\___  |__|      \_____  / /\ |___|   ')
-    print(r'           \/     \/           \/               \/                \/  \/         ')
-    print(r'')
+    print(r'%s' %cyan_black)
+    print(r'                 `h`                  __________                        ')
+    print(r'                 hMd`                 \______   \___.__.                ')
+    print(r'                sMMMy                  |     ___<   |  |                ')
+    print(r'               +MMMMMs                 |    |    \___  |                ')
+    print(r'              /MMMMMMMo                |____|    / ____|                ')
+    print(r'             .+mMMMMMMMo                         \/                     ')
+    print(r'            /NmyymMMMMMMo                _____                .__       ')
+    print(r'           /NMMMMNMMMMMMMo              /  _  \_______   ____ |  |__    ')
+    print(r'          +MMMMMMMMMMMMMMMs`           /  /_\  \_  __ \_/ ___\|  |  \   ')
+    print(r'         oMMMMMMMMMMMMMMMMMy`         /    |    \  | \/\  \___|   Y  \  ')
+    print(r'       `sMMMMMMMmsosdMMMMMMMy`        \____|__  /__|    \___  >___|  /  ')
+    print(r'      `yMMMMMMMo`   `oMMMMMMMh`               \/            \/     \/   ')
+    print(r'     `hMMMMMMMh       yMMMMMMMd.      .____    .__                      ')
+    print(r'    .dMMMMMMMM+       :MMMMMmhys`     |    |   |__| ____  __ _____  ___ ')
+    print(r'   -mMMMMMMMMM+       :MMMMMMMNd+`    |    |   |  |/    \|  |  \  \/  / ')
+    print(r'  :NMMMMmyo/-``       ``-/oymMMMMN:   |    |___|  |   |  \  |  />    <  ')
+    print(r' /NMds:``                   ``:sdMM/  |_______ \__|___|  /____//__/\_ \ ')
+    print(r':s:`                             `:s:         \/       \/            \/ ')
+    print(r'------------------------------------------------------------------------')
+    print(r'                                                 version 0.2            ')
+    print(r'------------------------------------------------------------------------')
+    print(r'%s' %white_black)
 
 # Running commands
 def arch_runcmd(cmd):
@@ -43,24 +62,23 @@ def arch_disk_management(efi):
     while retry == 1:
         clear()
         arch_logo()
-        print("--------------------------------------------------------------")
+        print("------------------------------------------------------------------------")
         print("  Disk Management - menu - UEFI mode: " + uefi)
-        print("--------------------------------------------------------------")
+        print("------------------------------------------------------------------------")
         print("")
         print("Note:")
-        print("Boot partitions should be prepared on disk with CORRECT disk")
-        print("table.")
+        print("Boot partitions should be prepared on disk with CORRECT disk table!")
         print("For UEFI mode - GPT table")
         print("For BIOS/Legacy mode - MSDOS table")
         print("")
         print(" Choose action:")
         print(" 1. Check disk table")
-        print("--------------------------------------------------------------")
+        print("------------------------------------------------------------------------")
         print(" Use below options with CAUTION! - may destroy your data!")
         print(" 2. Change partition table")
         print(" 3. Create partition")
         print(" 4. Format partition")
-        print("--------------------------------------------------------------")
+        print("------------------------------------------------------------------------")
         print(" 5. Mount partition")
         print(" 0. Exit")
         print(" Your choice?")
@@ -89,9 +107,9 @@ def arch_installation(efi):
     while retry == 1:
         clear()
         arch_logo()
-        print("--------------------------------------------------------------")
+        print("------------------------------------------------------------------------")
         print("  Install Arch Linux - menu - UEFI mode: " + uefi)
-        print("--------------------------------------------------------------")
+        print("------------------------------------------------------------------------")
         print(" Choose action:")
         print(" 1. Install Arch Linux Base")
         print(" 2. System configuration")
@@ -129,9 +147,9 @@ def arch_check_tables(efi):
     while retry == 1:
         clear()
         arch_logo()
-        print("--------------------------------------------------------------")
+        print("------------------------------------------------------------------------")
         print("  Disk Management - check tables - UEFI mode: " + uefi)
-        print("--------------------------------------------------------------")
+        print("------------------------------------------------------------------------")
         print(" Check list below:")
         get = s.check_output("parted -l", shell=True).decode("utf-8").splitlines()
         for line in get:
@@ -162,9 +180,9 @@ def arch_change_table(efi):
     while retry == 1:
         clear()
         arch_logo()
-        print("--------------------------------------------------------------")
+        print("------------------------------------------------------------------------")
         print("  Disk Management - change partition table - UEFI mode: " + uefi)
-        print("--------------------------------------------------------------")
+        print("------------------------------------------------------------------------")
         print(" Select disk for change partition table:")
         get = s.check_output("parted -l", shell=True).decode("utf-8").splitlines()
         for line in get:
@@ -211,31 +229,49 @@ def arch_partitioning(efi):
     while retry == 1:
         clear()
         arch_logo()
-        print("--------------------------------------------------------------")
+        disk_table = []
+        disk_size = []
+        print("------------------------------------------------------------------------")
         print("  Disk Management - create partition - UEFI mode: " + uefi)
-        print("--------------------------------------------------------------")
+        print("------------------------------------------------------------------------")
         print(" Select disk for preparing partitions")
-        arch_runcmd(r'lsblk')
-        print("Your choice [examples sda, sdb, hda, hdb, etc.]:")
-        disk = input()
-        print("Your choice is /dev/" + disk)
-        print("Are you sure? [y/n]")
-        choice1 = input()
-        if choice1 == "y":
-            arch_runcmd("cfdisk /dev/" + disk)
-            o.system("clear")
-            arch_logo()
-            print("--------------------------------------------------------------")
-            print("  Disk Management - UEFI mode: " + uefi)
-            print("--------------------------------------------------------------")
-            print(" Select other disk? [y/n]")
-            choice2 = input()
-            if choice2 == "y":
-                retry = 1
+        #arch_runcmd(r'lsblk')
+        list_disk = s.check_output("lsblk", shell=True).decode("utf-8").splitlines()
+        for line in list_disk:
+            if "disk" in line:
+                l = line.split()
+                disk_table.append(l[0])
+                disk_size.append(l[3])
+        i = 0
+        for disk in disk_table:
+            print(str(i + 1) + ".\t" + disk + "\t--\t" + disk_size[i])
+            i += 1
+        print("q.\tQuit\n\nYour choice?")
+        get = input()
+        if get != "q":
+            if int(get) - 1 < len(disk_table):
+                print("Your choice is /dev/" + disk_table[int(get) - 1])
+                print("Are you sure? [y/n]")
+                choice1 = input()
+                if choice1 == "y":
+                    arch_runcmd("cfdisk /dev/" + disk_table[int(get) - 1])
+                    o.system("clear")
+                    arch_logo()
+                    print("------------------------------------------------------------------------")
+                    print("  Disk Management - UEFI mode: " + uefi)
+                    print("------------------------------------------------------------------------")
+                    print(" Select other disk? [y/n]")
+                    choice2 = input()
+                    if choice2 == "y":
+                        retry = 1
+                    else:
+                        retry = 0
+                else:
+                    retry = 1
             else:
-                retry = 0
+                retry = 1
         else:
-            retry = 1
+            retry = 0
 
 # Disk management - Format partition
 def arch_formatting(efi):
@@ -247,41 +283,61 @@ def arch_formatting(efi):
     while retry == 1:
         clear()
         arch_logo()
-        print("--------------------------------------------------------------")
+        part_table = []
+        part_size = []
+        part_type = []
+        print("------------------------------------------------------------------------")
         print("  Partition Management - format partition - UEFI mode: " + uefi)
-        print("--------------------------------------------------------------")
+        print("------------------------------------------------------------------------")
         print(" Select partition for formatting")
-        arch_runcmd(r'lsblk')
-        print("Your choice [examples sda1, sda2, hda1, hdb1, etc.]:")
-        part = input()
-        print("Select file system:")
-        print("1. ext4 [for standard Linux partitions]")
-        print("2. fat32 [for EFI boot partition]")
-        print("3. swap [for swap partition]")
-        print("0. Cancel")
-        print("Your choice?")
-        fs = input()
-        if fs != 0:
-            print("Partition: /dev/" + part)
-            if fs == "1":
-                print("File system: ext4")
-            if fs == "2":
-                print("File system: fat32")
-            if fs == "3":
-                print("File system: swap")
-            print("Are you sure? [y/n]")
-            choice = input()
-            if choice == "y":
-                if fs == "1":
-                    arch_runcmd("mkfs.ext4 /dev/" + part)
-                if fs == "2":
-                    arch_runcmd("mkfs.fat -F32 /dev/" + part)
-                if fs == "3":
-                    arch_runcmd("mkswap /dev/" + part)
-                print(" Select other partition? [y/n]")
-                choice2 = input()
-                if choice2 == "y":
-                    retry = 1
+        list_disk = s.check_output("lsblk -o NAME,SIZE,FSTYPE,TYPE", shell=True).decode("utf-8").splitlines()
+        for line in list_disk:
+            if "part" in line:
+                l = line.split()
+                part_table.append(l[0])
+                part_size.append(l[1])
+                part_type.append(l[2])
+        i = 0
+        for part in part_table:
+            print(str(i + 1) + ".\t" + part + " -- " + part_size[i] + " -- " + part_type[i])
+            i += 1
+        print("q.\tQuit\n\nYour choice?")
+        get = input()
+        if get != "q":
+            if int(get) - 1 < len(part_table):
+                print("Select partition type:")
+                print("1. ext4")
+                print("2. fat32")
+                print("3. swap")
+                print("q. Quit")
+                print("")
+                print("Your choice?")
+                get_fs = input()
+                if get_fs != "q":
+                    print("Partition: /dev/" + part_table[int(get) - 1].lstrip("└─"))
+                    if get_fs == "1":
+                        print("File system: ext4")
+                    if get_fs == "2":
+                        print("File system: fat32")
+                    if get_fs == "3":
+                        print("File system: swap")
+                    print("Are you sure? [y/n]")
+                    choice = input()
+                    if choice == "y":
+                        if get_fs == "1":
+                            arch_runcmd("mkfs.ext4 /dev/" + part_table[int(get) - 1].lstrip("└─"))
+                        if get_fs == "2":
+                            arch_runcmd("mkfs.fat -F32 /dev/" + part_table[int(get) - 1].lstrip("└─"))
+                        if get_fs == "3":
+                            arch_runcmd("mkswap /dev/" + part_table[int(get) - 1].lstrip("└─"))
+                        print(" Select other partition? [y/n]")
+                        choice2 = input()
+                        if choice2 == "y":
+                            retry = 1
+                        else:
+                            retry = 0
+                    else:
+                        retry = 1
                 else:
                     retry = 0
             else:
@@ -299,51 +355,70 @@ def arch_mounting(efi):
     while retry == 1:
         clear()
         arch_logo()
-        print("--------------------------------------------------------------")
+        part_table = []
+        part_size = []
+        part_type = []
+        part_mount = []
+        print("------------------------------------------------------------------------")
         print("  Mount file systems - mount partition - UEFI mode: " + uefi)
-        print("--------------------------------------------------------------")
+        print("------------------------------------------------------------------------")
         print("Select partition for mount")
-        arch_runcmd(r'lsblk')
-        print("Your choice [examples sda1, sda2, hda1, hdb1, etc.]:")
-        part = input()
-        print("Select mount point:")
-        print("1. /")
-        print("2. /boot")
-        print("3. /boot/efi - required in UEFI mode is ON!")
-        print("4. /home")
-        print("5. swap")
-        print("6. other mount point")
-        print("0. Cancel")
-        mnt = input()
-        if mnt != "0":
-            if mnt == "1":
-                arch_runcmd("umount /mnt")
-                arch_runcmd("mount /dev/" + part + " /mnt")
-            if mnt == "2":
-                arch_runcmd("mkdir /mnt/boot")
-                arch_runcmd("umount /mnt/boot")
-                arch_runcmd("mount /dev/" + part + " /mnt/boot")
-            if mnt == "3":
-                arch_runcmd("mkdir /mnt/boot")
-                arch_runcmd("mkdir /mnt/boot/efi")
-                arch_runcmd("umount /mnt/boot/efi")
-                arch_runcmd("mount /dev/" + part + " /mnt/boot/efi")
-            if mnt == "4":
-                arch_runcmd("mkdir /mnt/home")
-                arch_runcmd("umount /mnt/home")
-                arch_runcmd("mount /dev/" + part + " /mnt/home")
-            if mnt == "5":
-                arch_runcmd("swapon /dev/" + part)
-            if mnt == "6":
-                print("Sorry! This option is not implemented!")
-            print(" Select other mount point? [y/n]")
-            choice2 = input()
-            if choice2 == "y":
-                retry = 1
-            else:
-                retry = 0
-        else:
-            retry = 0
+        list_disk = s.check_output("lsblk -o NAME,SIZE,FSTYPE,TYPE,MOUNTPOINT", shell=True).decode("utf-8").splitlines()
+        for line in list_disk:
+            if "part" in line:
+                l = line.split()
+                part_table.append(l[0])
+                part_size.append(l[1])
+                part_type.append(l[2])
+                try:
+                    part_mount.append(l[4])
+                except Exception:
+                    part_mount.append("not mounted")
+        i = 0
+        for part in part_table:
+            print(str(i + 1) + ".\t" + part + " -- " + part_size[i] + " -- " + part_type[i] + " -- " + part_mount[i])
+            i += 1
+        print("q.\tQuit\n\nYour choice?")
+        get = input()
+        if get != "q":
+            if int(get) - 1 < len(part_table):
+                print("Select mount point:")
+                print("1. / - must be mounted at first!")
+                print("2. /boot")
+                print("3. /boot/efi - required if UEFI mode is ON!")
+                print("4. /home")
+                print("5. swap")
+                print("6. other mount point")
+                print("q. Cancel")
+                mnt = input()
+                if mnt != "q":
+                    if mnt == "1":
+                        arch_runcmd("umount /mnt")
+                        arch_runcmd("mount /dev/" + part_table[int(get) - 1].lstrip("└─") + " /mnt")
+                    if mnt == "2":
+                        arch_runcmd("mkdir -p /mnt/boot")
+                        arch_runcmd("umount /mnt/boot")
+                        arch_runcmd("mount /dev/" + part_table[int(get) - 1].lstrip("└─") + " /mnt/boot")
+                    if mnt == "3":
+                        arch_runcmd("mkdir -p /mnt/boot/efi")
+                        arch_runcmd("umount /mnt/boot/efi")
+                        arch_runcmd("mount /dev/" + part_table[int(get) - 1].lstrip("└─") + " /mnt/boot/efi")
+                    if mnt == "4":
+                        arch_runcmd("mkdir -p /mnt/home")
+                        arch_runcmd("umount /mnt/home")
+                        arch_runcmd("mount /dev/" + part_table[int(get) - 1].lstrip("└─") + " /mnt/home")
+                    if mnt == "5":
+                        arch_runcmd("swapon /dev/" + part_table[int(get) - 1].lstrip("└─"))
+                    if mnt == "6":
+                        print("Sorry! :( This option is not implemented yet!")
+                    print(" Select other mount point? [y/n]")
+                    choice2 = input()
+                    if choice2 == "y":
+                        retry = 1
+                    else:
+                        retry = 0
+                else:
+                    retry = 0
 
 # Install Arch Linux base to /mnt
 def arch_base(efi):
@@ -355,16 +430,15 @@ def arch_base(efi):
     while retry == 1:
         clear()
         arch_logo()
-        print("--------------------------------------------------------------")
+        print("------------------------------------------------------------------------")
         print("  Install Arch Linux - base installation - UEFI mode: " + uefi)
-        print("--------------------------------------------------------------")
+        print("------------------------------------------------------------------------")
         print("Please check mount points before continue:")
         arch_runcmd(r'lsblk')
         print("Continue? [y/n]")
         install = input()
         if install == "y":
             print(">> Refresh repositiories")
-            arch_runcmd("pacman -Syy")
             arch_runcmd("pacman -Syy")
             print(">> Installing base")
             arch_runcmd("pacstrap /mnt base base-devel linux linux-firmware")
@@ -383,9 +457,9 @@ def arch_video_driver():
     while retry == 1:
         clear()
         arch_logo()
-        print("--------------------------------------------------------------")
+        print("------------------------------------------------------------------------")
         print("  Install Arch Linux - video drivers ")
-        print("--------------------------------------------------------------")
+        print("------------------------------------------------------------------------")
         print("Choose your video card vendor:")
         print("1. NVidia")
         print("2. AMD")
@@ -402,7 +476,7 @@ def arch_video_driver():
             setup.write("pacman -Syy --noconfirm xf86-video-vesa\n")
             setup.write("pacman -Syy --noconfirm mesa\n")
             if video == "1":
-                setup.write("pacman -Syy --noconfirm nvidia\n")
+                setup.write("pacman -Syy --noconfirm nvidia nvidia-settings\n")
             if video == "2":
                 setup.write("pacman -Syy --noconfirm xf86-video-amdgpu\n")
             if video == "3":
@@ -410,7 +484,7 @@ def arch_video_driver():
             if video == "4":
                 setup.write("pacman -Syy --noconfirm virtualbox-guest-utils xf86-video-vmware\n")
                 setup.write("systemctl enable vboxservice.service\n")
-            setup.write("pacman -Syy --noconfirm xorg-server xorg-xinit xterm\n")
+            setup.write("pacman -Syy --noconfirm xorg-server xorg-xinit xorg-xrandr arandr xterm\n")
             setup.write("exit\n")
             setup.close()
 
@@ -428,9 +502,9 @@ def arch_de():
     while retry == 1:
         clear()
         arch_logo()
-        print("--------------------------------------------------------------")
+        print("------------------------------------------------------------------------")
         print("  Install Arch Linux - Desktop Environment ")
-        print("--------------------------------------------------------------")
+        print("------------------------------------------------------------------------")
         print("Choose your video card vendor:")
         print("1. Gnome")
         print("2. KDE Plasma")
@@ -477,13 +551,14 @@ def arch_de():
                 setup.write("pacman -Syy --noconfirm lxqt\n")
                 setup.write("pacman -Syy --noconfirm breeze-icons\n")
             setup.write("pacman -Syy --noconfirm lightdm\n")
-            setup.write("pacman -Syy --noconfirm lightdm-gtk-greeter\n")
+            setup.write("pacman -Syy --noconfirm lightdm-gtk-greeter lightdm-gtk-greeter-settings\n")
             setup.write("pacman -Syy --noconfirm ttf-inconsolata\n")
             setup.write("pacman -Syy --noconfirm ttf-dejavu\n")
             setup.write("pacman -Syy --noconfirm ttf-font-awesome\n")
             setup.write("pacman -Syy --noconfirm ttf-joypixels\n")
             setup.write("pacman -Syy --noconfirm xdg-user-dirs\n")
             setup.write("systemctl enable lightdm.service\n")
+            setup.write("pacman -Syy --noconfirm pulseaudio pulseaudio-alsa pavucontrol mpg123 libcdio\n")
             setup.write("exit\n")
             setup.close()
 
@@ -491,6 +566,7 @@ def arch_de():
             arch_runcmd("cp setup_de.sh /mnt/setup_de.sh")
             arch_runcmd("chmod +x /mnt/setup_de.sh")
             arch_runcmd("arch-chroot /mnt bash -c \"./setup_de.sh\"")
+            arch_runcmd("rm /mnt/setup_de.sh")
             retry = 0
         else:
             retry = 0
@@ -501,9 +577,9 @@ def arch_configuration():
     while retry == 1:
         clear()
         arch_logo()
-        print("--------------------------------------------------------------")
+        print("------------------------------------------------------------------------")
         print("  Install Arch Linux - configuration ")
-        print("--------------------------------------------------------------")
+        print("------------------------------------------------------------------------")
         print(">> Hostname")
         print("Please provide hostname:")
         hostname = input()
@@ -520,10 +596,6 @@ def arch_configuration():
             else:
                 tz = "Europe/Paris"
                 print("Selected time zone: " + tz)
-
-            keymap = "pl"
-            locale = "pl_PL.UTF-8 UTF-8"
-            locale2 = "pl_PL.UTF-8"
 
             print(">> Generate fstab file")
             arch_runcmd("genfstab -U /mnt >> /mnt/etc/fstab")
@@ -550,6 +622,7 @@ def arch_configuration():
             setup.write("echo LANG=" + locale2 + " > /etc/locale.conf\n")
             setup.write("echo \">> Configuring keyboard mapping\"\n")
             setup.write("echo KEYMAP=" + keymap + " > /etc/vconsole.conf\n")
+            setup.write("localectl --no-convert set-x11-keymap " + keymap + "\n")
             setup.write("pacman -Syy --noconfirm sudo iptables dhcpcd iwd\n")
             setup.write("echo \">> Configuring network\"\n")
             setup.write("echo \"> Hostname\"\n")
@@ -562,6 +635,8 @@ def arch_configuration():
             setup.write("pacman -Syy --noconfirm dhcpcd iwd\n")
             setup.write("echo \"> Enabling DHCP service\"\n")
             setup.write("systemctl enable dhcpcd.service\n")
+            setup.write("echo \"> Installing NTFS file system support\"\n")
+            setup.write("pacman -Syy --noconfirm ntfs-3g\n")
             setup.write("exit\n")
             setup.close()
 
@@ -572,6 +647,7 @@ def arch_configuration():
 
             print(">> Start configuration")
             arch_runcmd("arch-chroot /mnt bash -c \"./setup.sh\"")
+            arch_runcmd("rm /mnt/setup.sh")
 
             print("Configuration has been completed!")
 
@@ -584,9 +660,9 @@ def arch_bootloader(efi):
     while retry == 1:
         clear()
         arch_logo()
-        print("--------------------------------------------------------------")
+        print("------------------------------------------------------------------------")
         print("  Install GRUB Bootloader ")
-        print("--------------------------------------------------------------")
+        print("------------------------------------------------------------------------")
         print("Are you sure to install GRUB bootloader? [y/n]")
         bootloader = input()
         if bootloader == "y":
@@ -612,6 +688,7 @@ def arch_bootloader(efi):
             arch_runcmd("cp setup_bootloader.sh /mnt/setup_bootloader.sh")
             arch_runcmd("chmod +x /mnt/setup_bootloader.sh")
             arch_runcmd("arch-chroot /mnt bash -c \"./setup_bootloader.sh\"")
+            arch_runcmd("rm /mnt/setup_bootloader.sh")
             retry = 0
         else:
             retry = 0
@@ -622,9 +699,9 @@ def arch_pkg():
     while retry == 1:
         clear()
         arch_logo()
-        print("--------------------------------------------------------------")
+        print("------------------------------------------------------------------------")
         print("  Install Arch Linux - install other packages")
-        print("--------------------------------------------------------------")
+        print("------------------------------------------------------------------------")
         print("Choose group of apps:")
         print("1. General")
         print("pkgfile htop python python-pip rsync sudo unrar unzip wget zip\n"
@@ -645,10 +722,10 @@ def arch_pkg():
         print("ttf-inconsolata ttf-dejavu ttf-font-awesome ttf-joypixels")
         print("9. yay")
         print("x. Other - goes to chroot mode")
-        print("0. Cancel")
+        print("q. Quit")
         print("Your choice?")
         packages = input()
-        if packages != "0" and packages != "x":
+        if packages != "q" and packages != "x":
             arch_runcmd("rm setup_pkg.sh")
             arch_runcmd("rm /mnt/setup_pkg.sh")
             setup = open("setup_pkg.sh", "a")
@@ -658,7 +735,7 @@ def arch_pkg():
             if packages == "2":
                 setup.write("pacman -Syy --noconfirm libreoffice-fresh atril\n")
             if packages == "3":
-                setup.write("pacman -Syy --noconfirm alsa-utils pulseaudio pulseaudio-alsa pavucontrol audacious\n")
+                setup.write("pacman -Syy --noconfirm alsa-utils pulseaudio pulseaudio-alsa pavucontrol audacious audacious-plugins\n")
             if packages == "4":
                 setup.write("pacman -Syy --noconfirm vlc\n")
             if packages == "5":
@@ -682,6 +759,7 @@ def arch_pkg():
             arch_runcmd("cp setup_pkg.sh /mnt/setup_pkg.sh")
             arch_runcmd("chmod +x /mnt/setup_pkg.sh")
             arch_runcmd("arch-chroot /mnt bash -c \"./setup_pkg.sh\"")
+            arch_runcmd("rm /mnt/setup_pkg.sh")
             retry = 0
         if packages == "x":
             arch_runcmd("arch-chroot /mnt")
@@ -695,9 +773,9 @@ def arch_users():
     while retry == 1:
         clear()
         arch_logo()
-        print("--------------------------------------------------------------")
+        print("------------------------------------------------------------------------")
         print("  Install Arch Linux - add user")
-        print("--------------------------------------------------------------")
+        print("------------------------------------------------------------------------")
         print("Enter username:")
         username = input()
         print("Enter group:")
@@ -717,6 +795,7 @@ def arch_users():
             arch_runcmd("cp setup_user.sh /mnt/setup_user.sh")
             arch_runcmd("chmod +x /mnt/setup_user.sh")
             arch_runcmd("arch-chroot /mnt bash -c \"./setup_user.sh\"")
+            arch_runcmd("rm /mnt/setup_user.sh")
             t.sleep(3)
             retry = 0
         else:
@@ -738,20 +817,23 @@ def arch_install():
     while menu == 1:
         clear()
         arch_logo()
-        print("          Install Arch Linux as simple as \"1-2-3\"!          ")
-        print("--------------------------------------------------------------")
-        print("                     M A I N   M E N U                        ")
-        print("--------------------------------------------------------------")
-        print(" 0. Check Internet connection")
-        print(" 1. Disk Management")
-        print(" 2. Install Arch Linux")
-        print(" 3. Install bootloader")
-        print(" q. Exit")
-        print("\nYour choice?")
+        print("               Install Arch Linux as simple as \"1-2-3\"!               ")
+        print("------------------------------------------------------------------------")
+        print("                          M A I N   M E N U                             ")
+        print("------------------------------------------------------------------------")
+        print(" 0. Check Internet connection                                           ")
+        print(" 1. Disk Management                                                     ")
+        print(" 2. Install Arch Linux                                                  ")
+        print(" 3. Install bootloader                                                  ")
+        print(" q. Exit                                                                ")
+        print("\nYour choice?                                                          ")
         choice = input()
         if choice != "q":
             if choice == "0":
-                pass
+                print("Pinging archlinux.org for 10 times...")
+                arch_runcmd("ping -c 10 archlinux.org")
+                print("Please wait...")
+                t.sleep(5)
             if choice == "1":
                 arch_disk_management(efi_mode)
             if choice == "2":
@@ -759,7 +841,9 @@ def arch_install():
             if choice == "3":
                 arch_bootloader(efi_mode)
         else:
-            print("Goodbye!")
+            clear()
+            arch_logo()
+            print("Goodbye!\n\n\n")
             menu = 0
 
 arch_install()
