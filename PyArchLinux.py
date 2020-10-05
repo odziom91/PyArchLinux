@@ -1,5 +1,5 @@
 #
-# PyArchLinux Installer 0.2
+# PyArchLinux Installer 0.4
 # by odziom91
 #
 
@@ -43,31 +43,28 @@ users_passwd = []
 def clear():  # clear screen function
     o.system("clear")
 
+def separator():
+    print('-' * 77)
+
+def version():
+    version = "0.4"
+    print(' ' * 39 + 'version ' + version)
 
 def arch_logo():  # PyArchLinux Installer ASCII logo
-    print(r'%s' % cyan)
-    print(r'                 `h`                  __________                        ')
-    print(r'                 hMd`                 \______   \___.__.                ')
-    print(r'                sMMMy                  |     ___<   |  |                ')
-    print(r'               +MMMMMs                 |    |    \___  |                ')
-    print(r'              /MMMMMMMo                |____|    / ____|                ')
-    print(r'             .+mMMMMMMMo                         \/                     ')
-    print(r'            /NmyymMMMMMMo                _____                .__       ')
-    print(r'           /NMMMMNMMMMMMMo              /  _  \_______   ____ |  |__    ')
-    print(r'          +MMMMMMMMMMMMMMMs`           /  /_\  \_  __ \_/ ___\|  |  \   ')
-    print(r'         oMMMMMMMMMMMMMMMMMy`         /    |    \  | \/\  \___|   Y  \  ')
-    print(r'       `sMMMMMMMmsosdMMMMMMMy`        \____|__  /__|    \___  >___|  /  ')
-    print(r'      `yMMMMMMMo`   `oMMMMMMMh`               \/            \/     \/   ')
-    print(r'     `hMMMMMMMh       yMMMMMMMd.      .____    .__                      ')
-    print(r'    .dMMMMMMMM+       :MMMMMmhys`     |    |   |__| ____  __ _____  ___ ')
-    print(r'   -mMMMMMMMMM+       :MMMMMMMNd+`    |    |   |  |/    \|  |  \  \/  / ')
-    print(r'  :NMMMMmyo/-``       ``-/oymMMMMN:   |    |___|  |   |  \  |  />    <  ')
-    print(r' /NMds:``                   ``:sdMM/  |_______ \__|___|  /____//__/\_ \ ')
-    print(r':s:`                             `:s:         \/       \/            \/ ')
-    print(r'------------------------------------------------------------------------')
-    print(r'                                                 version 0.3            ')
-    print(r'------------------------------------------------------------------------')
-    print(r'%s' % white)
+    print('%s' % cyan)
+    print(r'                                                                             ')
+    print(r'        .                                                                    ')
+    print(r'       / \                                                                   ')
+    print(r'      /   \        ___          _             _     _     _                  ')
+    print(r'     /^.   \      | _ \ _  _   /_\   _ _  __ | |_  | |   (_) _ _  _  _ __ __ ')
+    print(r'    /  .-.  \     |  _/| || | / _ \ | ._|/ _|| . \ | |__ | || . \| || |\ \ / ')
+    print(r'   /  (   ) _\    |_|   \_, |/_/ \_\|_|  \__||_||_||____||_||_||_|\_,_|/_\_\ ')
+    print(r'  / _.~   ~._^\         |__/                                                 ')
+    print(r' /.^         ^.\                                                             ')
+    separator()
+    version()
+    separator()
+    print('%s' % white)
 
 
 def arch_runcmd(cmd):  # Running commands
@@ -83,9 +80,9 @@ def arch_disk_management(efi):  # Disk management menu
     while retry == 1:
         clear()
         arch_logo()
-        print("------------------------------------------------------------------------")
+        separator()
         print("  Disk Management - menu - UEFI mode: " + uefi)
-        print("------------------------------------------------------------------------")
+        separator()
         print("")
         print("Note:")
         print("Boot partitions should be prepared on disk with CORRECT disk table!")
@@ -94,12 +91,12 @@ def arch_disk_management(efi):  # Disk management menu
         print("")
         print(" Choose action:")
         print(" 1. Check disk table")
-        print("------------------------------------------------------------------------")
+        separator()
         print(" Use below options with CAUTION! - may destroy your data!")
         print(" 2. Change partition table")
         print(" 3. Create partition")
         print(" 4. Format partition")
-        print("------------------------------------------------------------------------")
+        separator()
         print(" 5. Mount partition")
         print(" 0. Exit")
         print(" Your choice?")
@@ -118,48 +115,6 @@ def arch_disk_management(efi):  # Disk management menu
         else:
             retry = 0
 
-# to be removed!
-'''
-def arch_installation(efi):  # Arch Linux installation menu
-    if efi == 1:
-        uefi = "YES"
-    else:
-        uefi = "NO "
-    retry = 1
-    while retry == 1:
-        clear()
-        arch_logo()
-        print("------------------------------------------------------------------------")
-        print("  Install Arch Linux - menu - UEFI mode: " + uefi)
-        print("------------------------------------------------------------------------")
-        print(" Choose action:")
-        print(" 1. Install Arch Linux Base")
-        print(" 2. System configuration")
-        print(" 3. Add user")
-        print(" 4. Install video drivers")
-        print(" 5. Install desktop environment")
-        print(" 6. Install other packages")
-        print(" 0. Exit")
-        print(" Your choice?")
-        choice = input()
-        if choice != "0":
-            if choice == "1":
-                arch_base(efi)
-            if choice == "2":
-                arch_configuration()
-            if choice == "3":
-                arch_users()
-            if choice == "4":
-                arch_video_driver()
-            if choice == "5":
-                arch_de()
-            if choice == "6":
-                arch_pkg()
-            retry = 1
-        else:
-            retry = 0
-
-'''
 
 def arch_check_tables(efi):  # Check MBR (MSDOS) and GPT tables
     if efi == 1:
@@ -170,9 +125,9 @@ def arch_check_tables(efi):  # Check MBR (MSDOS) and GPT tables
     while retry == 1:
         clear()
         arch_logo()
-        print("------------------------------------------------------------------------")
+        separator()
         print("  Disk Management - check tables - UEFI mode: " + uefi)
-        print("------------------------------------------------------------------------")
+        separator()
         print(" Check list below:")
         get = s.check_output("parted -l", shell=True).decode("utf-8").splitlines()
         for line in get:
@@ -204,9 +159,9 @@ def arch_change_table(efi):  # Change disk table - MBR or GPT
     while retry == 1:
         clear()
         arch_logo()
-        print("------------------------------------------------------------------------")
+        separator()
         print("  Disk Management - change partition table - UEFI mode: " + uefi)
-        print("------------------------------------------------------------------------")
+        separator()
         print(" Select disk for change partition table:")
         get = s.check_output("parted -l", shell=True).decode("utf-8").splitlines()
         for line in get:
@@ -255,9 +210,9 @@ def arch_partitioning(efi):  # Disk management - Create partition
         arch_logo()
         disk_table = []
         disk_size = []
-        print("------------------------------------------------------------------------")
+        separator()
         print("  Disk Management - create partition - UEFI mode: " + uefi)
-        print("------------------------------------------------------------------------")
+        separator()
         print(" Select disk for preparing partitions")
         list_disk = s.check_output("lsblk", shell=True).decode("utf-8").splitlines()
         for line in list_disk:
@@ -280,9 +235,9 @@ def arch_partitioning(efi):  # Disk management - Create partition
                     arch_runcmd("cfdisk /dev/" + disk_table[int(get) - 1])
                     o.system("clear")
                     arch_logo()
-                    print("------------------------------------------------------------------------")
+                    separator()
                     print("  Disk Management - UEFI mode: " + uefi)
-                    print("------------------------------------------------------------------------")
+                    separator()
                     print(" Select other disk? [y/n]")
                     choice2 = input()
                     if choice2 == "y":
@@ -309,9 +264,9 @@ def arch_formatting(efi):  # Disk management - Format partition
         part_table = []
         part_size = []
         part_type = []
-        print("------------------------------------------------------------------------")
+        separator()
         print("  Partition Management - format partition - UEFI mode: " + uefi)
-        print("------------------------------------------------------------------------")
+        separator()
         print(" Select partition for formatting")
         list_disk = s.check_output("lsblk -o NAME,SIZE,FSTYPE,TYPE", shell=True).decode("utf-8").splitlines()
         for line in list_disk:
@@ -382,9 +337,9 @@ def arch_mounting(efi):  # Disk management - Mount partition
         part_size = []
         part_type = []
         part_mount = []
-        print("------------------------------------------------------------------------")
+        separator()
         print("  Mount file systems - mount partition - UEFI mode: " + uefi)
-        print("------------------------------------------------------------------------")
+        separator()
         print("Select partition for mount")
         list_disk = s.check_output("lsblk -o NAME,SIZE,FSTYPE,TYPE,MOUNTPOINT", shell=True).decode("utf-8").splitlines()
         for line in list_disk:
@@ -447,268 +402,15 @@ def arch_mounting(efi):  # Disk management - Mount partition
         else:
             retry = 0
 
-# to be removed!
-'''
-def arch_base(efi):  # Install Arch Linux base to /mnt
-    if efi == 1:
-        uefi = "YES"
-    else:
-        uefi = "NO "
-    retry = 1
-    while retry == 1:
-        clear()
-        arch_logo()
-        print("------------------------------------------------------------------------")
-        print("  Install Arch Linux - base installation - UEFI mode: " + uefi)
-        print("------------------------------------------------------------------------")
-        print("Please check mount points before continue:")
-        arch_runcmd(r'lsblk')
-        print("Continue? [y/n]")
-        install = input()
-        if install == "y":
-            print(">> Refresh repositiories")
-            arch_runcmd("pacman -Syy")
-            print(">> Installing base")
-            arch_runcmd("pacstrap /mnt base base-devel linux linux-firmware")
-            arch_runcmd("echo \"\" >> /mnt/etc/pacman.conf")
-            arch_runcmd("echo \"[multilib]\" >> /mnt/etc/pacman.conf")
-            arch_runcmd("echo \"Include = /etc/pacman.d/mirrorlist\" >> /mnt/etc/pacman.conf")
-            print(">> Arch Linux base has been installed.")
-            t.sleep(5)
-            retry = 0
-        else:
-            retry = 0
-
-
-def arch_video_driver():  # Install video drivers via chroot and generated bash script
-    retry = 1
-    while retry == 1:
-        clear()
-        arch_logo()
-        print("------------------------------------------------------------------------")
-        print("  Install Arch Linux - video drivers ")
-        print("------------------------------------------------------------------------")
-        print("Choose your video card vendor:")
-        print("1. NVidia")
-        print("2. AMD")
-        print("3. Intel")
-        print("4. VirtualBox")
-        print("0. Cancel")
-        print("Your choice?")
-        video = input()
-        if video != "0":
-            arch_runcmd("rm setup_video.sh")
-            arch_runcmd("rm /mnt/setup_video.sh")
-            setup = open("setup_video.sh", "a")
-            setup.write("#!/bin/bash\n")
-            setup.write("pacman -Syy --noconfirm xf86-video-vesa\n")
-            setup.write("pacman -Syy --noconfirm mesa\n")
-            if video == "1":
-                setup.write("pacman -Syy --noconfirm nvidia nvidia-settings\n")
-            if video == "2":
-                setup.write("pacman -Syy --noconfirm xf86-video-amdgpu\n")
-            if video == "3":
-                setup.write("pacman -Syy --noconfirm xf86-video-intel\n")
-            if video == "4":
-                setup.write("pacman -Syy --noconfirm virtualbox-guest-utils xf86-video-vmware\n")
-                setup.write("systemctl enable vboxservice.service\n")
-            setup.write("pacman -Syy --noconfirm xorg-server xorg-xinit xorg-xrandr arandr xterm\n")
-            setup.write("exit\n")
-            setup.close()
-
-            print(">> Prepare to chroot")
-            arch_runcmd("cp setup_video.sh /mnt/setup_video.sh")
-            arch_runcmd("chmod +x /mnt/setup_video.sh")
-            arch_runcmd("arch-chroot /mnt bash -c \"./setup_video.sh\"")
-            retry = 0
-        else:
-            retry = 0
-
-
-def arch_de():  # Install desktop environment via chroot and generated bash script
-    retry = 1
-    while retry == 1:
-        clear()
-        arch_logo()
-        print("------------------------------------------------------------------------")
-        print("  Install Arch Linux - Desktop Environment ")
-        print("------------------------------------------------------------------------")
-        print("Choose your video card vendor:")
-        print("1. Gnome")
-        print("2. KDE Plasma")
-        print("3. Mate")
-        print("4. Xfce")
-        print("5. Cinnamon")
-        print("6. Budgie")
-        print("7. Deepin")
-        print("8. Enlightenment")
-        print("9. LXDE")
-        print("10. LQxt")
-        print("0. Cancel")
-        print("Your choice?")
-        de = input()
-        if de != "0":
-            arch_runcmd("rm setup_de.sh")
-            arch_runcmd("rm /mnt/setup_de.sh")
-            setup = open("setup_de.sh", "a")
-            setup.write("#!/bin/bash\n")
-            if de == "1":
-                setup.write("pacman -Syy --noconfirm gnome\n")
-                setup.write("pacman -Syy --noconfirm gnome-extra\n")
-                setup.write("pacman -Syy --noconfirm gdm\n")
-                setup.write("systemctl enable gdm\n")
-            if de == "2":
-                setup.write("pacman -Syy --noconfirm plasma\n")
-                setup.write("pacman -Syy --noconfirm kde-applications\n")
-                setup.write("pacman -Syy --noconfirm sddm\n")
-                setup.write("systemctl enable sddm\n")
-            if de == "3":
-                setup.write("pacman -Syy --noconfirm mate\n")
-                setup.write("pacman -Syy --noconfirm mate-extra\n")
-                setup.write("pacman -Syy --noconfirm lightdm\n")
-                setup.write("pacman -Syy --noconfirm lightdm-gtk-greeter lightdm-gtk-greeter-settings\n")
-                setup.write("systemctl enable lightdm.service\n")
-            if de == "4":
-                setup.write("pacman -Syy --noconfirm xfce4\n")
-                setup.write("pacman -Syy --noconfirm xfce4-goodies\n")
-                setup.write("pacman -Syy --noconfirm lightdm\n")
-                setup.write("pacman -Syy --noconfirm lightdm-gtk-greeter lightdm-gtk-greeter-settings\n")
-                setup.write("systemctl enable lightdm.service\n")
-            if de == "5":
-                setup.write("pacman -Syy --noconfirm cinnamon\n")
-                setup.write("pacman -Syy --noconfirm lightdm\n")
-                setup.write("pacman -Syy --noconfirm lightdm-gtk-greeter lightdm-gtk-greeter-settings\n")
-                setup.write("systemctl enable lightdm.service\n")
-            if de == "6":
-                setup.write("pacman -Syy --noconfirm budgie-desktop\n")
-            if de == "7":
-                setup.write("pacman -Syy --noconfirm deepin\n")
-                setup.write("pacman -Syy --noconfirm deepin-extra\n")
-            if de == "8":
-                setup.write("pacman -Syy --noconfirm enlightenment\n")
-            if de == "9":
-                setup.write("pacman -Syy --noconfirm lxde\n")
-            if de == "10":
-                setup.write("pacman -Syy --noconfirm lxqt\n")
-                setup.write("pacman -Syy --noconfirm breeze-icons\n")
-            setup.write("pacman -Syy --noconfirm ttf-inconsolata\n")
-            setup.write("pacman -Syy --noconfirm ttf-dejavu\n")
-            setup.write("pacman -Syy --noconfirm ttf-font-awesome\n")
-            setup.write("pacman -Syy --noconfirm ttf-joypixels\n")
-            setup.write("pacman -Syy --noconfirm xdg-user-dirs\n")
-            setup.write("pacman -Syy --noconfirm pulseaudio pulseaudio-alsa pavucontrol mpg123 libcdio\n")
-            setup.write("echo \">> Configuring localization\"\n")
-            setup.write("echo \"" + locale + "\" >> /etc/locale.gen\n")
-            setup.write("locale-gen\n")
-            setup.write("echo LANG=" + locale2 + " > /etc/locale.conf\n")
-            setup.write("echo \">> Configuring keyboard mapping\"\n")
-            setup.write("echo KEYMAP=" + keymap + " > /etc/vconsole.conf\n")
-            setup.write("localectl --no-convert set-x11-keymap " + keymap + "\n")
-            setup.write("exit\n")
-            setup.close()
-
-            print(">> Prepare to chroot")
-            arch_runcmd("cp setup_de.sh /mnt/setup_de.sh")
-            arch_runcmd("chmod +x /mnt/setup_de.sh")
-            arch_runcmd("arch-chroot /mnt bash -c \"./setup_de.sh\"")
-            arch_runcmd("rm /mnt/setup_de.sh")
-            retry = 0
-        else:
-            retry = 0
-
-
-def arch_configuration():  # Configure system via chroot and generated bash script
-    retry = 1
-    while retry == 1:
-        clear()
-        arch_logo()
-        print("------------------------------------------------------------------------")
-        print("  Install Arch Linux - configuration ")
-        print("------------------------------------------------------------------------")
-        print(">> Hostname")
-        print("Please provide hostname:")
-        hostname = input()
-        if hostname == "":
-            print("Hostname is required...")
-            t.sleep(5)
-            retry = 0
-        else:
-            print(">> Time zone")
-            print("Please provide time zone (empty = Europe/Paris):")
-            tz = input()
-            if tz != "":
-                print("Selected time zone: " + tz)
-            else:
-                tz = "Europe/Paris"
-                print("Selected time zone: " + tz)
-
-            print(">> Generate fstab file")
-            arch_runcmd("genfstab -U /mnt >> /mnt/etc/fstab")
-
-            print(">> Clear scripts")
-            arch_runcmd("rm setup.sh")
-            arch_runcmd("rm /mnt/setup.sh")
-
-            print(">> Prepare scripts")
-            setup = open("setup.sh", "a")
-            setup.write("#!/bin/bash\n")
-            setup.write("echo \">> ROOT password:\"\n")
-            setup.write("echo \"Insert root password now!\"\n")
-            setup.write("passwd\n")
-            setup.write("echo \">> Configuring time zone\"\n")
-            setup.write("ln -sf /usr/share/zoneinfo/" + tz + " /etc/localtime\n")
-            setup.write("timedatectl set-timezone \'" + tz + "\'\n")
-            setup.write("echo \">> Configuring system time\"\n")
-            setup.write("hwclock --systohc\n")
-            setup.write("timedatectl set-ntp true\n")
-            setup.write("echo \">> Configuring localization\"\n")
-            setup.write("echo \"" + locale + "\" >> /etc/locale.gen\n")
-            setup.write("locale-gen\n")
-            setup.write("echo LANG=" + locale2 + " > /etc/locale.conf\n")
-            setup.write("echo \">> Configuring keyboard mapping\"\n")
-            setup.write("echo KEYMAP=" + keymap + " > /etc/vconsole.conf\n")
-            setup.write("localectl --no-convert set-x11-keymap " + keymap + "\n")
-            setup.write("pacman -Syy --noconfirm sudo iptables dhcpcd iwd\n")
-            setup.write("echo \">> Configuring network\"\n")
-            setup.write("echo \"> Hostname\"\n")
-            setup.write("echo " + hostname + " > /etc/hostname\n")
-            setup.write("echo \"> /etc/hosts file\"\n")
-            setup.write("echo 127.0.0.1 " + "localhost" + " > /etc/hosts\n")
-            setup.write("echo ::1 " + "localhost" + " >> /etc/hosts\n")
-            setup.write("echo 127.0.1.1 " + hostname + ".localdomain " + hostname + " >> /etc/hosts\n")
-            setup.write("echo \"> Installing DHCP (dhcpcd) and iNet Wireless Daemon (iwd) services\"\n")
-            setup.write("pacman -Syy --noconfirm dhcpcd iwd\n")
-            setup.write("echo \"> Enabling DHCP service\"\n")
-            setup.write("systemctl enable dhcpcd.service\n")
-            setup.write("echo \"> Installing NTFS file system support\"\n")
-            setup.write("pacman -Syy --noconfirm ntfs-3g\n")
-            setup.write("exit\n")
-            setup.close()
-
-            print(">> Prepare to chroot")
-            arch_runcmd("cp setup.sh /mnt/setup.sh")
-            arch_runcmd("chmod +x /mnt/setup.sh")
-            arch_runcmd("cp /etc/pacman.d/mirrorlist /mnt/etc/pacman.d/mirrorlist")
-
-            print(">> Start configuration")
-            arch_runcmd("arch-chroot /mnt bash -c \"./setup.sh\"")
-            arch_runcmd("rm /mnt/setup.sh")
-
-            print("Configuration has been completed!")
-
-            t.sleep(5)
-            retry = 0
-
-'''
 
 def arch_bootloader(efi):  # Install GRUB bootloader via chroot and generated bash script
     retry = 1
     while retry == 1:
         clear()
         arch_logo()
-        print("------------------------------------------------------------------------")
+        separator()
         print("  Install GRUB Bootloader ")
-        print("------------------------------------------------------------------------")
+        separator()
         print("Are you sure to install GRUB bootloader? [y/n]")
         bootloader = input()
         if bootloader == "y":
@@ -740,129 +442,22 @@ def arch_bootloader(efi):  # Install GRUB bootloader via chroot and generated ba
         else:
             retry = 0
 
-# to be removed!
-'''
-def arch_pkg():  # Install optional packages via chroot and generated bash script
-    retry = 1
-    while retry == 1:
-        clear()
-        arch_logo()
-        print("------------------------------------------------------------------------")
-        print("  Install Arch Linux - install other packages")
-        print("------------------------------------------------------------------------")
-        print("Choose group of apps:")
-        print("1. General")
-        print("pkgfile htop python python-pip rsync sudo unrar unzip wget zip\n"
-              "ffmpeg libnotify tlp bleachbit gparted xdg-user-dirs")
-        print("2. Office")
-        print("libreoffice-fresh atril")
-        print("3. Sound")
-        print("alsa-utils pulseaudio pulseaudio-alsa pavucontrol audacious")
-        print("4. Video")
-        print("vlc")
-        print("5. Graphics")
-        print("gimp inkscape")
-        print("6. Games")
-        print("steam lutris")
-        print("7. Internet")
-        print("firefox, thunderbird")
-        print("8. Fonts")
-        print("ttf-inconsolata ttf-dejavu ttf-font-awesome ttf-joypixels")
-        print("9. yay")
-        print("x. Other - goes to chroot mode")
-        print("q. Quit")
-        print("Your choice?")
-        packages = input()
-        if packages != "q" and packages != "x":
-            arch_runcmd("rm setup_pkg.sh")
-            arch_runcmd("rm /mnt/setup_pkg.sh")
-            setup = open("setup_pkg.sh", "a")
-            setup.write("#!/bin/bash\n")
-            if packages == "1":
-                setup.write("pacman -Syy --noconfirm pkgfile htop python python-pip rsync sudo unrar unzip wget zip "
-                            "ffmpeg libnotify tlp bleachbit gparted\n")
-            if packages == "2":
-                setup.write("pacman -Syy --noconfirm libreoffice-fresh atril\n")
-            if packages == "3":
-                setup.write("pacman -Syy --noconfirm alsa-utils pulseaudio pulseaudio-alsa pavucontrol audacious "
-                            "audacious-plugins\n")
-            if packages == "4":
-                setup.write("pacman -Syy --noconfirm vlc\n")
-            if packages == "5":
-                setup.write("pacman -Syy --noconfirm gimp inkscape\n")
-            if packages == "6":
-                setup.write("pacman -Syy --noconfirm steam lutris\n")
-            if packages == "7":
-                setup.write("pacman -Syy --noconfirm firefox thunderbird\n")
-            if packages == "8":
-                setup.write("pacman -Syy --noconfirm ttf-inconsolata ttf-dejavu ttf-font-awesome ttf-joypixels\n")
-            if packages == "9":
-                setup.write("pacman -Syy --noconfirm git\n")
-                setup.write("cd /root\n")
-                setup.write("git clone https://aur.archlinux.org/yay.git\n")
-                setup.write("cd yay\n")
-                setup.write("makepkg -si\n")
-            setup.write("exit\n")
-            setup.close()
 
-            print(">> Prepare to chroot")
-            arch_runcmd("cp setup_pkg.sh /mnt/setup_pkg.sh")
-            arch_runcmd("chmod +x /mnt/setup_pkg.sh")
-            arch_runcmd("arch-chroot /mnt bash -c \"./setup_pkg.sh\"")
-            arch_runcmd("rm /mnt/setup_pkg.sh")
-            retry = 0
-        if packages == "x":
-            arch_runcmd("arch-chroot /mnt")
-            retry = 1
-        if packages == "0":
-            retry = 0
-
-
-def arch_users():  # Install via chroot and generated bash script
-    retry = 1
-    while retry == 1:
-        clear()
-        arch_logo()
-        print("------------------------------------------------------------------------")
-        print("  Install Arch Linux - add user")
-        print("------------------------------------------------------------------------")
-        print("Enter username:")
-        username = input()
-        print("Enter group:")
-        group = input()
-        if username != "":
-            if group == "":
-                group = "users"
-            arch_runcmd("rm setup_user.sh")
-            arch_runcmd("rm /mnt/setup_user.sh")
-            setup = open("setup_user.sh", "a")
-            setup.write("#!/bin/bash\n")
-            setup.write("groupadd " + group + "\n")
-            setup.write("useradd -m -g " + group + " " + username + "\n")
-            setup.write("passwd " + username + "\n")
-            setup.write("exit\n")
-            setup.close()
-            arch_runcmd("cp setup_user.sh /mnt/setup_user.sh")
-            arch_runcmd("chmod +x /mnt/setup_user.sh")
-            arch_runcmd("arch-chroot /mnt bash -c \"./setup_user.sh\"")
-            arch_runcmd("rm /mnt/setup_user.sh")
-            t.sleep(3)
-            retry = 0
-        else:
-            print("Username not entered.")
-            t.sleep(3)
-            retry = 0
-'''
 def arch_iptest():
     clear()
     arch_logo()
-    print("------------------------------------------------------------------------")
+    separator()
     print("  Check Internet connection")
-    print("------------------------------------------------------------------------")
+    separator()
     print("IP Configuration:")
     arch_runcmd('ip addr | grep -w inet | sed "s/inet/> inet/"')
-    print("Pinging archlinux.org for 10 times...")
-    arch_runcmd("ping -c 10 archlinux.org")
+    print("Pinging archlinux.org. Please wait...")
+    #arch_runcmd("ping -c 10 archlinux.org")
+    status, request = s.getstatusoutput("ping -c 5 archlinux.org")
+    if status == 0:
+        print("You have a connection.")
+    else:
+        print("You do not have a connection.\nPlease check and configure your network card and try again.")
     t.sleep(5)
 
 
@@ -873,9 +468,9 @@ def arch_locale():
     while menu:
         clear()
         arch_logo()
-        print("------------------------------------------------------------------------")
+        separator()
         print("  Install Arch Linux - System configuration - Set locale")
-        print("------------------------------------------------------------------------")
+        separator()
         #list_locales = s.check_output("localectl list-locales", shell=True).decode("utf-8").splitlines()
         list_locales = ["en_US.UTF-8",
                         "de_DE.UTF-8",
@@ -934,15 +529,16 @@ def arch_locale():
             menu = False
             t.sleep(3)
 
+
 def arch_keymap():
     global keymap
     menu = True
     while menu:
         clear()
         arch_logo()
-        print("------------------------------------------------------------------------")
+        separator()
         print("  Install Arch Linux - System configuration - Set keymap")
-        print("------------------------------------------------------------------------")
+        separator()
         print("Choose keyboard layout:")
         print("1.  us - United States")
         print("2.  de - German")
@@ -1000,9 +596,9 @@ def arch_keymap():
             if choice == "13":
                 clear()
                 arch_logo()
-                print("------------------------------------------------------------------------")
+                separator()
                 print("  Install Arch Linux - System configuration - Set keymap - other")
-                print("------------------------------------------------------------------------")
+                separator()
                 filter = input("Put COUNTRY CODE or other keyboard type for filter: ")
                 list_keymaps = s.check_output("localectl list-keymaps | grep \"" + filter + "\"", shell=True).decode("utf-8").split("\n")
                 i = 0
@@ -1043,9 +639,9 @@ def arch_timezone():
     while menu:
         clear()
         arch_logo()
-        print("------------------------------------------------------------------------")
+        separator()
         print("  Install Arch Linux - System configuration - Set time zone")
-        print("------------------------------------------------------------------------")
+        separator()
         print("Choose place:")
         list_tz = s.check_output("timedatectl list-timezones", shell=True).decode("utf-8").split("\n")
         list_tz_1 = []
@@ -1098,15 +694,16 @@ def arch_timezone():
         else:
             menu = False
 
+
 def arch_network():
     global nm
     menu = True
     while menu:
         clear()
         arch_logo()
-        print("------------------------------------------------------------------------")
+        separator()
         print("  Install Arch Linux - System configuration - Set Network Manager")
-        print("------------------------------------------------------------------------")
+        separator()
         print(" 1.  networkmanager - for Graphical User Interface (nmcli)")
         print(" 2.  netctl - netctl Network Utility (wifi-menu)")
         print(" q.  Quit")
@@ -1125,15 +722,16 @@ def arch_network():
         else:
             menu = False
 
+
 def arch_multilib():
     global multilib
     menu = True
     while menu:
         clear()
         arch_logo()
-        print("------------------------------------------------------------------------")
+        separator()
         print("  Install Arch Linux - System configuration - Multilib")
-        print("------------------------------------------------------------------------")
+        separator()
         print("Enable multilib? Required for 32-bit support")
         print("y. Yes")
         print("n. No")
@@ -1150,15 +748,16 @@ def arch_multilib():
             config.close()
         menu = False
 
+
 def arch_dhcp():
     global dhcp
     menu = True
     while menu:
         clear()
         arch_logo()
-        print("------------------------------------------------------------------------")
+        separator()
         print("  Install Arch Linux - System configuration - Enable DHCP")
-        print("------------------------------------------------------------------------")
+        separator()
         print("Enable DHCP? It is required for automatic IP address configuration")
         print("y. Yes")
         print("n. No")
@@ -1175,15 +774,16 @@ def arch_dhcp():
             dhcp = "no"
         menu = False
 
+
 def arch_wifi():
     global wifi_support
     menu = True
     while menu:
         clear()
         arch_logo()
-        print("------------------------------------------------------------------------")
+        separator()
         print("  Install Arch Linux - System configuration - Enable Wi-Fi")
-        print("------------------------------------------------------------------------")
+        separator()
         print("Enable Wi-Fi support?")
         print("y. Yes")
         print("n. No")
@@ -1200,15 +800,16 @@ def arch_wifi():
             config.close()
         menu = False
 
+
 def arch_pppoe():
     global pppoe_support
     menu = True
     while menu:
         clear()
         arch_logo()
-        print("------------------------------------------------------------------------")
+        separator()
         print("  Install Arch Linux - System configuration - Enable PPPoE")
-        print("------------------------------------------------------------------------")
+        separator()
         print("Enable PPPoE support?")
         print("y. Yes")
         print("n. No")
@@ -1225,16 +826,17 @@ def arch_pppoe():
             config.close()
         menu = False
 
+
 def arch_mobile():
     global mobile_support
     menu = True
     while menu:
         clear()
         arch_logo()
-        print("------------------------------------------------------------------------")
-        print("  Install Arch Linux - System configuration - Enable PPPoE")
-        print("------------------------------------------------------------------------")
-        print("Enable PPPoE support?")
+        separator()
+        print("  Install Arch Linux - System configuration - Enable mobile")
+        separator()
+        print("Enable mobile connection support?")
         print("y. Yes")
         print("n. No")
         choice = input("Choose your answer: ")
@@ -1250,14 +852,15 @@ def arch_mobile():
             config.close()
         menu = False
 
+
 def arch_usermgmt():
     menu = True
     while menu:
         clear()
         arch_logo()
-        print("------------------------------------------------------------------------")
+        separator()
         print("  Install Arch Linux - Install menu ")
-        print("------------------------------------------------------------------------")
+        separator()
         print(" Users list:")
         for user in users_list:
             print(user)
@@ -1316,15 +919,16 @@ def arch_usermgmt():
         else:
             menu = False
 
+
 def arch_desktop_env():
     global desktop_env
     menu = True
     while menu:
         clear()
         arch_logo()
-        print("------------------------------------------------------------------------")
+        separator()
         print("  Install Arch Linux - System configuration - Choose Desktop Environment")
-        print("------------------------------------------------------------------------")
+        separator()
         print("Choose desktop environment:")
         print("1. Gnome")
         print("2. KDE Plasma")
@@ -1361,15 +965,16 @@ def arch_desktop_env():
         else:
             menu = False
 
+
 def arch_video():
     global video_driver
     menu = True
     while menu:
         clear()
         arch_logo()
-        print("------------------------------------------------------------------------")
+        separator()
         print("  Install Arch Linux - System configuration - Choose video driver")
-        print("------------------------------------------------------------------------")
+        separator()
         print("Choose video driver:")
         print("1. NVidia")
         print("2. AMD")
@@ -1396,15 +1001,16 @@ def arch_video():
         else:
             menu = False
 
+
 def arch_desktop_mngr():
     global desktop_mngr
     menu = True
     while menu:
         clear()
         arch_logo()
-        print("------------------------------------------------------------------------")
+        separator()
         print("  Install Arch Linux - System configuration - Choose Display Manager ")
-        print("------------------------------------------------------------------------")
+        separator()
         print("Choose desktop environment:")
         print("1. gdm - GNOME Desktop Display Manager")
         print("2. lightdm - Multi Desktop Display Manager")
@@ -1425,15 +1031,16 @@ def arch_desktop_mngr():
         else:
             menu = False
 
+
 def arch_hostname():
     global hostname
     menu = True
     while menu:
         clear()
         arch_logo()
-        print("------------------------------------------------------------------------")
+        separator()
         print("  Install Arch Linux - System configuration - Set Hostname ")
-        print("------------------------------------------------------------------------")
+        separator()
         choice = input("Insert hostname: ")
         if choice != "":
             hostname = choice
@@ -1452,9 +1059,9 @@ def arch_root_pwd():
     while menu:
         clear()
         arch_logo()
-        print("------------------------------------------------------------------------")
+        separator()
         print("  Install Arch Linux - System configuration - Set Root password ")
-        print("------------------------------------------------------------------------")
+        separator()
         choice = input("Insert password for root: ")
         if choice != "":
             root_pwd_status = "set"
@@ -1483,9 +1090,9 @@ def arch_sysconfig(efi):
     while menu:
         clear()
         arch_logo()
-        print("------------------------------------------------------------------------")
+        separator()
         print("  Install Arch Linux - System configuration")
-        print("------------------------------------------------------------------------")
+        separator()
         print(" 1.  Set locale - " + locale + " " + locale2)
         print(" 2.  Set keymap - " + keymap)
         print(" 3.  Set time zone - " + timezone)
@@ -1544,53 +1151,6 @@ def arch_sysconfig(efi):
         else:
             menu = False
 
-# to be removed !
-'''
-def arch_checklist(efi):
-    global hostname
-    global locale
-    global keymap
-    global timezone
-    global nm
-    global dhcp
-    global desktop_env
-    global desktop_mngr
-    global multilib
-    global wifi_support
-    global pppoe_support
-    global mobile_support
-    if efi == 1:
-        uefi = "YES"
-    else:
-        uefi = "NO "
-    menu = True
-    while menu:
-        clear()
-        arch_logo()
-        print("------------------------------------------------------------------------")
-        print("  Install Arch Linux - Checklist ")
-        print("------------------------------------------------------------------------")
-        print("Please check all details about your installation:")
-        print("Hostname:\t" + hostname)
-        print("Locale:\t" + locale)
-        print("Keymap:\t" + keymap)
-        print("Time zone:\t" + timezone)
-        print("Network Manager:\t" + nm)
-        print("Wi-Fi support:\t" + wifi_support)
-        print("PPPoE support:\t" + pppoe_support)
-        print("Mobile broadband support:\t" + mobile_support)
-        print("DHCP :\t" + dhcp)
-        print("Desktop Environment:\t" + desktop_env)
-        print("Display Manager:\t" + desktop_mngr)
-        print("Multilib:\t" + multilib)
-        print("Users: " + "")
-        choice = input("Is it okay? (y/n)")
-        if choice == "y":
-            arch_setup_menu()
-        else:
-            menu = False
-
-'''
 
 def arch_software():
     global multilib
@@ -1598,9 +1158,9 @@ def arch_software():
     while menu:
         clear()
         arch_logo()
-        print("------------------------------------------------------------------------")
+        separator()
         print("  Install Arch Linux - Install additional software ")
-        print("------------------------------------------------------------------------")
+        separator()
         print(" 1. Install default software -  check list below:")
         print(" Firefox - internet browser,")
         print(" Thunderbird - mail client,")
@@ -1659,6 +1219,7 @@ def arch_software():
         else:
             menu = False
 
+
 def arch_software_script(apps):
     print(">> Clear scripts")
     arch_runcmd("rm setup.sh")
@@ -1702,9 +1263,9 @@ def arch_setup_menu(efi):
     while menu:
         clear()
         arch_logo()
-        print("------------------------------------------------------------------------")
+        separator()
         print("  Install Arch Linux - Install menu ")
-        print("------------------------------------------------------------------------")
+        separator()
         print(" 1. Install Arch Linux")
         print(" 2. System configuration")
         print(" 3. Install additional software")
@@ -1723,6 +1284,7 @@ def arch_setup_menu(efi):
         else:
             menu = False
 
+
 def arch_setup_kernel(efi):
     if efi == 1:
         uefi = "YES"
@@ -1732,9 +1294,9 @@ def arch_setup_kernel(efi):
     while menu:
         clear()
         arch_logo()
-        print("------------------------------------------------------------------------")
+        separator()
         print("  Install Arch Linux - Choose kernel ")
-        print("------------------------------------------------------------------------")
+        separator()
         print(" 1. Stable - Vanilla kernel (default Linux kernel) - linux")
         print(" 2. Zen - Zen kernel (modified kernel - fsync support!) - linux-zen")
         print(" 3. Longterm - Long Time Support kernel - linux-lts")
@@ -1757,6 +1319,7 @@ def arch_setup_kernel(efi):
         else:
             menu = False
 
+
 def arch_setup_base(efi):
     if efi == 1:
         uefi = "YES"
@@ -1766,9 +1329,9 @@ def arch_setup_base(efi):
     while retry:
         clear()
         arch_logo()
-        print("------------------------------------------------------------------------")
+        separator()
         print("  Install Arch Linux - Stable - UEFI mode: " + uefi)
-        print("------------------------------------------------------------------------")
+        separator()
         print("Please check mount points before continue:")
         arch_runcmd(r'lsblk')
         print("Continue? [y/n]")
@@ -1784,6 +1347,7 @@ def arch_setup_base(efi):
         else:
             retry = 0
 
+
 def arch_setup_zen(efi):
     if efi == 1:
         uefi = "YES"
@@ -1793,9 +1357,9 @@ def arch_setup_zen(efi):
     while retry:
         clear()
         arch_logo()
-        print("------------------------------------------------------------------------")
+        separator()
         print("  Install Arch Linux - Zen - UEFI mode: " + uefi)
-        print("------------------------------------------------------------------------")
+        separator()
         print("Please check mount points before continue:")
         arch_runcmd(r'lsblk')
         print("Continue? [y/n]")
@@ -1821,9 +1385,9 @@ def arch_setup_longterm(efi):
     while retry:
         clear()
         arch_logo()
-        print("------------------------------------------------------------------------")
+        separator()
         print("  Install Arch Linux - Longterm - UEFI mode: " + uefi)
-        print("------------------------------------------------------------------------")
+        separator()
         print("Please check mount points before continue:")
         arch_runcmd(r'lsblk')
         print("Continue? [y/n]")
@@ -1839,6 +1403,7 @@ def arch_setup_longterm(efi):
         else:
             retry = 0
 
+
 def arch_setup_hardened(efi):
     if efi == 1:
         uefi = "YES"
@@ -1848,9 +1413,9 @@ def arch_setup_hardened(efi):
     while retry:
         clear()
         arch_logo()
-        print("------------------------------------------------------------------------")
+        separator()
         print("  Install Arch Linux - Hardened - UEFI mode: " + uefi)
-        print("------------------------------------------------------------------------")
+        separator()
         print("Please check mount points before continue:")
         arch_runcmd(r'lsblk')
         print("Continue? [y/n]")
@@ -1866,6 +1431,7 @@ def arch_setup_hardened(efi):
         else:
             retry = 0
 
+
 def arch_setup_configuration(efi):
     global multilib
     global timezone
@@ -1874,9 +1440,9 @@ def arch_setup_configuration(efi):
     global keymap
     clear()
     arch_logo()
-    print("------------------------------------------------------------------------")
+    separator()
     print("  Install Arch Linux - system configuration ")
-    print("------------------------------------------------------------------------")
+    separator()
 
     print(">> Generate fstab file")
     arch_runcmd("genfstab -U /mnt >> /mnt/etc/fstab")
@@ -2074,10 +1640,12 @@ def arch_setup_configuration(efi):
 
     t.sleep(5)
 
+
 def createConfigDir():
     # create config directory
     if o.path.exists("./config") == False:
         o.mkdir("./config")
+
 
 def readConfig():
     global desktop_env
@@ -2170,6 +1738,7 @@ def readConfig():
                 users_list.append(user)
         config.close()
 
+
 def arch_install():  # PyArchLinux Installer main menu
     # check efi mode before start!
     print("Checking EFI mode...\n")
@@ -2184,9 +1753,9 @@ def arch_install():  # PyArchLinux Installer main menu
         clear()
         arch_logo()
         print("               Install Arch Linux as simple as \"1-2-3\"!               ")
-        print("------------------------------------------------------------------------")
+        separator()
         print("                          M A I N   M E N U                             ")
-        print("------------------------------------------------------------------------")
+        separator()
         print(" 1. Check Internet connection                                           ")
         print(" 2. Disk Management                                                     ")
         print(" 3. Install Arch Linux                                                  ")

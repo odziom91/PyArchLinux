@@ -1,0 +1,80 @@
+# Changelog
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
+
+## [0.4.0] 2020-10-06
+### Added
+- CHANGELOG file
+- Separators
+- different Kernel support! (Stable, Zen, Longterm, Hardened)
+### Changed
+- PyArchLinux ASCII logo
+- rebuild connection checker
+### Fixed
+- setup file visibility after installation
+### Removed
+- temporary removed some Desktop Environments
+
+## [0.3.0] 2020-05-12
+### Added
+- color support for installer
+- setup variables
+- connection checker
+- locale support
+- keymap support
+- network support
+- multilib support
+- dhcp support
+- wifi support
+- PPPoE support
+- mobile broadbands support
+- all added things from 0.2.0 [testing branch]
+### Changed
+- rebuild user management menu
+- rebuild Desktop Environments menu
+- rebuild Video drivers menu
+- rebuild Display Manager menu
+- rebuild main menu
+### Fixed
+- visual fixes
+### Removed
+- temporary removed some Desktop Environments
+
+## [0.2.0] [testing branch - unreleased] - 2020-05-12
+### Added
+- Disk management - list of disks
+- Disk mounting - list of disks
+- NVidia - nvidia-settings package
+- xorg - xorg-xrandr, arandr packages
+- lightdm - lightdm-gtk-greeter-settings package
+- Audio - PulseAudio support with ALSA
+- Audacious - added plugins
+### Changed
+- PyArchLinux ASCII logo
+- rebuild main menu
+### Fixed
+- visual fixes
+### Removed
+- locale variables
+
+## [0.1.0] - 2020-04-22
+### Added
+- Initial release
+- PyArchLinux ASCII logo
+- Disk managment
+- Disk mounting
+- Video drivers support (NVidia, AMD, Intel, VirtualBox)
+- Desktop Environments
+- Initial configuration
+- Bootloader (grub)
+- User management
+### Changed
+- n/a
+### Fixed
+- n/a
+### Removed
+- n/a
