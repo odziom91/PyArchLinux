@@ -1,5 +1,5 @@
 #
-# PyArchLinux Installer 0.4
+# PyArchLinux Installer 0.5
 # by odziom91
 #
 
@@ -47,7 +47,7 @@ def separator():
     print('-' * 77)
 
 def version():
-    version = "0.4"
+    version = "0.5"
     print(' ' * 39 + 'version ' + version)
 
 def arch_logo():  # PyArchLinux Installer ASCII logo
@@ -287,6 +287,14 @@ def arch_formatting(efi):  # Disk management - Format partition
                 print("1. ext4")
                 print("2. fat32")
                 print("3. swap")
+                print("4. btrfs (unstable)")
+                print()
+                print("--- NOTE! ---")
+                print("Btrfs has some features that are unstable.")
+                print("If you have btrfs filesystems, run the latest kernel.")
+                print("You should keep and test backups of your data, and be prepared to use them.")
+                print("Known issues: no build-in encryption, btrfs check, TLP and file corruptions.")
+                print()
                 print("q. Quit")
                 print("")
                 print("Your choice?")
@@ -299,6 +307,8 @@ def arch_formatting(efi):  # Disk management - Format partition
                         print("File system: fat32")
                     if get_fs == "3":
                         print("File system: swap")
+                    if get_fs == "4":
+                        print("File system: btrfs")
                     print("Are you sure? [y/n]")
                     choice = input()
                     if choice == "y":
@@ -308,6 +318,8 @@ def arch_formatting(efi):  # Disk management - Format partition
                             arch_runcmd("mkfs.fat -F32 /dev/" + part_table[int(get) - 1].lstrip("└─").lstrip("├─"))
                         if get_fs == "3":
                             arch_runcmd("mkswap /dev/" + part_table[int(get) - 1].lstrip("└─").lstrip("├─"))
+                        if get_fs == "4":
+                            arch_runcmd("mkfs.btrfs -f /dev/" + part_table[int(get) - 1].lstrip("└─").lstrip("├─"))
                         print(" Select other partition? [y/n]")
                         choice2 = input()
                         if choice2 == "y":
@@ -670,8 +682,12 @@ def arch_timezone():
                     print("Choose nearest city: ")
                     for v_tz in list_tz:
                         if v_tz != "":
+                            tz_city = v_tz.split("/")
                             i += 1
-                            print(str(i) + ". " + v_tz)
+                            if i % 3 == 0:
+                                print(str(i) + ". " + tz_city[1], end="\n")
+                            else:
+                                print(str(i) + ". " + tz_city[1], end="\t")
                     print("q. Quit")
                     choice = input("Choose an option: ")
                     if choice != "q":
@@ -1306,16 +1322,16 @@ def arch_setup_kernel(efi):
         if choice != "q":
             if choice == "1":
                 arch_setup_base(efi)
-                menu = True
+                menu = False
             if choice == "2":
                 arch_setup_zen(efi)
-                menu = True
+                menu = False
             if choice == "3":
                 arch_setup_longterm(efi)
-                menu = True
+                menu = False
             if choice == "4":
                 arch_setup_hardened(efi)
-                menu = True
+                menu = False
         else:
             menu = False
 

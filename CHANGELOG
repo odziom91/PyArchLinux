@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] 2020-10-08
+### Added
+- btrfs support (this file system is not recommended for not experienced users!)
+### Changed
+- wget to curl for download this script in README.md file
+### Fixed
+- Time zone menu list (more Cities visible per line)
+- Kernel menu does not exit to previous section after choosing Kernel
+### Removed
+- n/a
+
 ## [0.4.0] 2020-10-06
 ### Added
 - CHANGELOG file
