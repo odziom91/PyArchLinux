@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.1] 2020-10-08
+### Added
+- labels support for disk partitions
+### Changed
+- split extra content from Gnome, Mate, Xfce4 Desktop Environments
+### Fixed
+- n/a
+### Removed
+- n/a
+
 ## [0.5.0] 2020-10-08
 ### Added
 - btrfs support (this file system is not recommended for not experienced users!)

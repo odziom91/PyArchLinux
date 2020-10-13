@@ -1,5 +1,5 @@
 #
-# PyArchLinux Installer 0.5
+# PyArchLinux Installer 0.5.1
 # by odziom91
 #
 
@@ -47,7 +47,7 @@ def separator():
     print('-' * 77)
 
 def version():
-    version = "0.5"
+    version = "0.5.1"
     print(' ' * 39 + 'version ' + version)
 
 def arch_logo():  # PyArchLinux Installer ASCII logo
@@ -313,13 +313,17 @@ def arch_formatting(efi):  # Disk management - Format partition
                     choice = input()
                     if choice == "y":
                         if get_fs == "1":
-                            arch_runcmd("mkfs.ext4 /dev/" + part_table[int(get) - 1].lstrip("└─").lstrip("├─"))
+                            label = input("Please provide label for this partition or press Enter for none: ")
+                            arch_runcmd("mkfs.ext4 -L " + label + " /dev/" + part_table[int(get) - 1].lstrip("└─").lstrip("├─"))
                         if get_fs == "2":
-                            arch_runcmd("mkfs.fat -F32 /dev/" + part_table[int(get) - 1].lstrip("└─").lstrip("├─"))
+                            label = input("Please provide label for this partition or press Enter for none: ")
+                            arch_runcmd("mkfs.fat -F32 -n " + label + " /dev/" + part_table[int(get) - 1].lstrip("└─").lstrip("├─"))
                         if get_fs == "3":
-                            arch_runcmd("mkswap /dev/" + part_table[int(get) - 1].lstrip("└─").lstrip("├─"))
+                            label = input("Please provide label for this partition or press Enter for none: ")
+                            arch_runcmd("mkswap -L " + label + " /dev/" + part_table[int(get) - 1].lstrip("└─").lstrip("├─"))
                         if get_fs == "4":
-                            arch_runcmd("mkfs.btrfs -f /dev/" + part_table[int(get) - 1].lstrip("└─").lstrip("├─"))
+                            label = input("Please provide label for this partition or press Enter for none: ")
+                            arch_runcmd("mkfs.btrfs -L " + label + " -f /dev/" + part_table[int(get) - 1].lstrip("└─").lstrip("├─"))
                         print(" Select other partition? [y/n]")
                         choice2 = input()
                         if choice2 == "y":
@@ -947,16 +951,19 @@ def arch_desktop_env():
         separator()
         print("Choose desktop environment:")
         print("1. Gnome")
-        print("2. KDE Plasma")
-        print("3. Mate")
-        print("4. Xfce")
-        print("5. Cinnamon")
+        print("2. Gnome with extras")
+        print("3. KDE Plasma")
+        print("4. Mate")
+        print("5. Mate with extras")
+        print("6. Xfce")
+        print("7. Xfce with extras")
+        print("8. Cinnamon")
         # todo
-        #print("6. Budgie")
-        #print("7. Deepin")
-        #print("8. Enlightenment")
-        #print("9. LXDE")
-        #print("10. LQxt")
+        #print("9. Budgie")
+        #print("10. Deepin")
+        #print("11. Enlightenment")
+        #print("12. LXDE")
+        #print("13. LQxt")
         print("q. Quit")
         choice = input("Choose an option: ")
         if choice != "q":
@@ -964,15 +971,24 @@ def arch_desktop_env():
                 desktop_env = "gnome"
                 menu = False
             if choice == "2":
-                desktop_env = "kde"
+                desktop_env = "gnome-extra"
                 menu = False
             if choice == "3":
-                desktop_env = "mate"
+                desktop_env = "kde"
                 menu = False
             if choice == "4":
-                desktop_env = "xfce4"
+                desktop_env = "mate"
                 menu = False
             if choice == "5":
+                desktop_env = "mate-extra"
+                menu = False
+            if choice == "6":
+                desktop_env = "xfce4"
+                menu = False
+            if choice == "7":
+                desktop_env = "xfce4-extra"
+                menu = False
+            if choice == "8":
                 desktop_env = "cinnamon"
                 menu = False
             config = open("./config/de.conf", "w")
@@ -1558,6 +1574,16 @@ def arch_setup_configuration(efi):
     if desktop_env != "not choosed":
         if desktop_env == "gnome":
             setup.write('pacman -Syy --noconfirm gnome\n')
+            setup.write('pacman -Syy --noconfirm gdm\n')
+            setup.write('systemctl enable gdm\n')
+            setup.write('pacman -Syy --noconfirm ttf-inconsolata\n')
+            setup.write('pacman -Syy --noconfirm ttf-dejavu\n')
+            setup.write('pacman -Syy --noconfirm ttf-font-awesome\n')
+            setup.write('pacman -Syy --noconfirm ttf-joypixels\n')
+            setup.write('pacman -Syy --noconfirm xdg-user-dirs\n')
+            setup.write('pacman -Syy --noconfirm pulseaudio pulseaudio-alsa pavucontrol mpg123 libcdio\n')
+        if desktop_env == "gnome-extra":
+            setup.write('pacman -Syy --noconfirm gnome\n')
             setup.write('pacman -Syy --noconfirm gnome-extra\n')
             setup.write('pacman -Syy --noconfirm gdm\n')
             setup.write('systemctl enable gdm\n')
@@ -1580,6 +1606,17 @@ def arch_setup_configuration(efi):
             setup.write('pacman -Syy --noconfirm pulseaudio pulseaudio-alsa pavucontrol mpg123 libcdio\n')
         if desktop_env == "mate":
             setup.write('pacman -Syy --noconfirm mate\n')
+            setup.write('pacman -Syy --noconfirm lightdm\n')
+            setup.write('pacman -Syy --noconfirm lightdm-gtk-greeter lightdm-gtk-greeter-settings\n')
+            setup.write('systemctl enable lightdm.service\n')
+            setup.write('pacman -Syy --noconfirm ttf-inconsolata\n')
+            setup.write('pacman -Syy --noconfirm ttf-dejavu\n')
+            setup.write('pacman -Syy --noconfirm ttf-font-awesome\n')
+            setup.write('pacman -Syy --noconfirm ttf-joypixels\n')
+            setup.write('pacman -Syy --noconfirm xdg-user-dirs\n')
+            setup.write('pacman -Syy --noconfirm pulseaudio pulseaudio-alsa pavucontrol mpg123 libcdio\n')
+        if desktop_env == "mate-extra":
+            setup.write('pacman -Syy --noconfirm mate\n')
             setup.write('pacman -Syy --noconfirm mate-extra\n')
             setup.write('pacman -Syy --noconfirm lightdm\n')
             setup.write('pacman -Syy --noconfirm lightdm-gtk-greeter lightdm-gtk-greeter-settings\n')
@@ -1591,6 +1628,17 @@ def arch_setup_configuration(efi):
             setup.write('pacman -Syy --noconfirm xdg-user-dirs\n')
             setup.write('pacman -Syy --noconfirm pulseaudio pulseaudio-alsa pavucontrol mpg123 libcdio\n')
         if desktop_env == "xfce4":
+            setup.write('pacman -Syy --noconfirm xfce4\n')
+            setup.write('pacman -Syy --noconfirm lightdm\n')
+            setup.write('pacman -Syy --noconfirm lightdm-gtk-greeter lightdm-gtk-greeter-settings\n')
+            setup.write('systemctl enable lightdm.service\n')
+            setup.write('pacman -Syy --noconfirm ttf-inconsolata\n')
+            setup.write('pacman -Syy --noconfirm ttf-dejavu\n')
+            setup.write('pacman -Syy --noconfirm ttf-font-awesome\n')
+            setup.write('pacman -Syy --noconfirm ttf-joypixels\n')
+            setup.write('pacman -Syy --noconfirm xdg-user-dirs\n')
+            setup.write('pacman -Syy --noconfirm pulseaudio pulseaudio-alsa pavucontrol mpg123 libcdio\n')
+        if desktop_env == "xfce4-extra":
             setup.write('pacman -Syy --noconfirm xfce4\n')
             setup.write('pacman -Syy --noconfirm xfce4-goodies\n')
             setup.write('pacman -Syy --noconfirm lightdm\n')
