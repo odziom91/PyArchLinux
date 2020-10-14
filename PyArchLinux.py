@@ -47,7 +47,7 @@ def separator():
     print('-' * 77)
 
 def version():
-    version = "0.5.2"
+    version = "0.5.3"
     print(' ' * 39 + 'version ' + version)
 
 def arch_logo():  # PyArchLinux Installer ASCII logo
@@ -1536,6 +1536,7 @@ def arch_setup_configuration(efi):
     setup.write('read -t 5 -n 1 -s -r -p "Press wait to continue...\n"\n')
     setup.write('localectl --no-convert set-x11-keymap ' + keymap + '\n')
     setup.write('echo KEYMAP=' + keymap + ' > /etc/vconsole.conf\n')
+    setup.write('setxkbmap ' + keymap + '\n')
 
     setup.write('clear\n')
     setup.write('echo ">> Configuring network"\n')
