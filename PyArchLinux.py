@@ -47,7 +47,7 @@ def separator():
     print('-' * 77)
 
 def version():
-    version = "0.5.1"
+    version = "0.5.2"
     print(' ' * 39 + 'version ' + version)
 
 def arch_logo():  # PyArchLinux Installer ASCII logo
@@ -1372,7 +1372,7 @@ def arch_setup_base(efi):
             print(">> Refresh repositiories")
             arch_runcmd("pacman -Syy")
             print(">> Installing base")
-            arch_runcmd("pacstrap /mnt base base-devel linux linux-firmware")
+            arch_runcmd("pacstrap /mnt base base-devel linux linux-firmware linux-headers")
             print(">> Arch Linux base has been installed.")
             t.sleep(5)
             retry = 0
@@ -1400,7 +1400,7 @@ def arch_setup_zen(efi):
             print(">> Refresh repositiories")
             arch_runcmd("pacman -Syy")
             print(">> Installing base")
-            arch_runcmd("pacstrap /mnt base base-devel linux-zen linux-firmware")
+            arch_runcmd("pacstrap /mnt base base-devel linux-zen linux-firmware linux-zen-headers")
             print(">> Arch Linux base has been installed.")
             t.sleep(5)
             retry = 0
@@ -1428,7 +1428,7 @@ def arch_setup_longterm(efi):
             print(">> Refresh repositiories")
             arch_runcmd("pacman -Syy")
             print(">> Installing base")
-            arch_runcmd("pacstrap /mnt base base-devel linux-lts linux-firmware")
+            arch_runcmd("pacstrap /mnt base base-devel linux-lts linux-firmware linux-lts-headers")
             print(">> Arch Linux base has been installed.")
             t.sleep(5)
             retry = 0
@@ -1456,7 +1456,7 @@ def arch_setup_hardened(efi):
             print(">> Refresh repositiories")
             arch_runcmd("pacman -Syy")
             print(">> Installing base")
-            arch_runcmd("pacstrap /mnt base base-devel linux-hardened linux-firmware")
+            arch_runcmd("pacstrap /mnt base base-devel linux-hardened linux-firmware linux-hardened-headers")
             print(">> Arch Linux base has been installed.")
             t.sleep(5)
             retry = 0
