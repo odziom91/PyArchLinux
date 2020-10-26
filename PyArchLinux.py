@@ -1,5 +1,5 @@
 #
-# PyArchLinux Installer 0.5.1
+# PyArchLinux Installer 0.5.4
 # by odziom91
 #
 
@@ -47,7 +47,7 @@ def separator():
     print('-' * 77)
 
 def version():
-    version = "0.5.3"
+    version = "0.5.4"
     print(' ' * 39 + 'version ' + version)
 
 def arch_logo():  # PyArchLinux Installer ASCII logo
@@ -436,7 +436,7 @@ def arch_bootloader(efi):  # Install GRUB bootloader via chroot and generated ba
             setup.write("#!/bin/bash\n")
             if efi == 1:
                 print("EFI mode: YES\n")
-                setup.write("pacman -Syy --noconfirm grub efibootmgr os-prober\n")
+                setup.write("pacman -Syy --noconfirm --quiet grub efibootmgr os-prober\n")
                 setup.write("grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB\n")
             else:
                 print("EFI mode: NO\n")
@@ -444,7 +444,7 @@ def arch_bootloader(efi):  # Install GRUB bootloader via chroot and generated ba
                 arch_runcmd("lsblk")
                 print("Your choice? (sdX or hdX):")
                 grub = input()
-                setup.write("pacman -Syy --noconfirm grub os-prober\n")
+                setup.write("pacman -Syy --noconfirm --quiet grub os-prober\n")
                 setup.write("mkdir -p /boot/grub/\n")
                 setup.write("grub-install --target=i386-pc /dev/" + grub + "\n")
             setup.write("grub-mkconfig -o /boot/grub/grub.cfg\n")
@@ -1241,7 +1241,9 @@ def arch_software():
                                       "lib32-libgcrypt", "libgcrypt", "lib32-libxinerama", "ncurses", "lib32-ncurses",
                                       "opencl-icd-loader", "lib32-opencl-icd-loader", "libxslt", "lib32-libxslt",
                                       "libva", "lib32-libva", "gtk3", "lib32-gtk3", "gst-plugins-base-libs",
-                                      "lib32-gst-plugins-base-libs", "vulkan-icd-loader", "lib32-vulkan-icd-loader"])
+                                      "lib32-gst-plugins-base-libs", "lib32-gst-plugins-good", "lib32-gst-plugins-base",
+                                      "gst-plugins-good", "gst-plugins-base", "vulkan-icd-loader", 
+                                      "lib32-vulkan-icd-loader"])
                 # lutris
                 arch_software_script(["lutris"])
                 # steam
@@ -1264,7 +1266,7 @@ def arch_software_script(apps):
     setup.write('echo ">> Installing additional software"\n')
     setup.write('read -t 5 -n 1 -s -r -p "Press wait to continue...\n"\n')
     for app in apps:
-        setup.write('pacman -Syy --noconfirm --needed ' + app + '\n')
+        setup.write('pacman -Syy --noconfirm --needed --quiet ' + app + '\n')
     setup.write('exit\n')
     setup.close()
 
@@ -1542,148 +1544,149 @@ def arch_setup_configuration(efi):
     setup.write('echo ">> Configuring network"\n')
     setup.write('read -t 5 -n 1 -s -r -p "Press wait to continue...\n"\n')
     if nm == "nmcli":
-        setup.write('pacman -Syy --noconfirm networkmanager nm-connection-editor\n')
+        setup.write('pacman -Syy --noconfirm --quiet networkmanager nm-connection-editor\n')
         if desktop_env == "kde":
-            setup.write('pacman -Syy --noconfirm plasma-nm\n')
+            setup.write('pacman -Syy --noconfirm --quiet plasma-nm\n')
         else:
-            setup.write('pacman -Syy --noconfirm network-manager-applet\n')
+            setup.write('pacman -Syy --noconfirm --quiet network-manager-applet\n')
         setup.write('systemctl enable NetworkManager.service\n')
         if dhcp == "yes":
-            setup.write('pacman -Syy --noconfirm dhcpcd\n')
+            setup.write('pacman -Syy --noconfirm --quiet dhcpcd\n')
             setup.write('systemctl enable dhcpcd.service\n')
         if wifi_support == "yes":
-            setup.write('pacman -Syy --noconfirm wpa_supplicant dialog\n')
+            setup.write('pacman -Syy --noconfirm --quiet wpa_supplicant dialog\n')
         if pppoe_support == "yes":
-            setup.write('pacman -Syy --noconfirm rp-pppoe\n')
+            setup.write('pacman -Syy --noconfirm --quiet rp-pppoe\n')
         if mobile_support == "yes":
-            setup.write('pacman -Syy --noconfirm modemmanager mobile-broadband-provider-info usb_modeswitch\n')
+            setup.write('pacman -Syy --noconfirm --quiet modemmanager mobile-broadband-provider-info usb_modeswitch\n')
     if nm == "wifi-menu":
-        setup.write("pacman -Syy --noconfirm netctl\n")
+        setup.write("pacman -Syy --noconfirm --quiet netctl\n")
         if dhcp == "yes":
-            setup.write('pacman -Syy --noconfirm dhcpcd\n')
+            setup.write('pacman -Syy --noconfirm --quiet dhcpcd\n')
             setup.write('systemctl enable dhcpcd.service\n')
         if wifi_support == "yes":
-            setup.write('pacman -Syy --noconfirm wpa_supplicant dialog\n')
+            setup.write('pacman -Syy --noconfirm --quiet wpa_supplicant dialog\n')
         if pppoe_support == "yes":
-            setup.write('pacman -Syy --noconfirm ppp\n')
+            setup.write('pacman -Syy --noconfirm --quiet ppp\n')
         if mobile_support == "yes":
-            setup.write('pacman -Syy --noconfirm modemmanager mobile-broadband-provider-info usb_modeswitch\n')
+            setup.write('pacman -Syy --noconfirm --quiet modemmanager mobile-broadband-provider-info usb_modeswitch\n')
 
     setup.write('clear\n')
     setup.write('echo ">> Configuring desktop environment - if choosed"\n')
     setup.write('read -t 5 -n 1 -s -r -p "Press wait to continue...\n"\n')
     if desktop_env != "not choosed":
         if desktop_env == "gnome":
-            setup.write('pacman -Syy --noconfirm gnome\n')
-            setup.write('pacman -Syy --noconfirm gdm\n')
+            setup.write('pacman -Syy --noconfirm --quiet gnome\n')
+            setup.write('pacman -Syy --noconfirm --quiet gdm\n')
             setup.write('systemctl enable gdm\n')
-            setup.write('pacman -Syy --noconfirm ttf-inconsolata\n')
-            setup.write('pacman -Syy --noconfirm ttf-dejavu\n')
-            setup.write('pacman -Syy --noconfirm ttf-font-awesome\n')
-            setup.write('pacman -Syy --noconfirm ttf-joypixels\n')
-            setup.write('pacman -Syy --noconfirm xdg-user-dirs\n')
-            setup.write('pacman -Syy --noconfirm pulseaudio pulseaudio-alsa pavucontrol mpg123 libcdio\n')
+            setup.write('pacman -Syy --noconfirm --quiet ttf-inconsolata\n')
+            setup.write('pacman -Syy --noconfirm --quiet ttf-dejavu\n')
+            setup.write('pacman -Syy --noconfirm --quiet ttf-font-awesome\n')
+            setup.write('pacman -Syy --noconfirm --quiet ttf-joypixels\n')
+            setup.write('pacman -Syy --noconfirm --quiet xdg-user-dirs\n')
+            setup.write('pacman -Syy --noconfirm --quiet pulseaudio pulseaudio-alsa pavucontrol mpg123 libcdio\n')
         if desktop_env == "gnome-extra":
-            setup.write('pacman -Syy --noconfirm gnome\n')
-            setup.write('pacman -Syy --noconfirm gnome-extra\n')
-            setup.write('pacman -Syy --noconfirm gdm\n')
+            setup.write('pacman -Syy --noconfirm --quiet gnome\n')
+            setup.write('pacman -Syy --noconfirm --quiet gnome-extra\n')
+            setup.write('pacman -Syy --noconfirm --quiet gdm\n')
             setup.write('systemctl enable gdm\n')
-            setup.write('pacman -Syy --noconfirm ttf-inconsolata\n')
-            setup.write('pacman -Syy --noconfirm ttf-dejavu\n')
-            setup.write('pacman -Syy --noconfirm ttf-font-awesome\n')
-            setup.write('pacman -Syy --noconfirm ttf-joypixels\n')
-            setup.write('pacman -Syy --noconfirm xdg-user-dirs\n')
-            setup.write('pacman -Syy --noconfirm pulseaudio pulseaudio-alsa pavucontrol mpg123 libcdio\n')
+            setup.write('pacman -Syy --noconfirm --quiet ttf-inconsolata\n')
+            setup.write('pacman -Syy --noconfirm --quiet ttf-dejavu\n')
+            setup.write('pacman -Syy --noconfirm --quiet ttf-font-awesome\n')
+            setup.write('pacman -Syy --noconfirm --quiet ttf-joypixels\n')
+            setup.write('pacman -Syy --noconfirm --quiet xdg-user-dirs\n')
+            setup.write('pacman -Syy --noconfirm --quiet pulseaudio pulseaudio-alsa pavucontrol mpg123 libcdio\n')
         if desktop_env == "kde":
-            setup.write('pacman -Syy --noconfirm plasma\n')
-            setup.write('pacman -Syy --noconfirm kde-applications\n')
-            setup.write('pacman -Syy --noconfirm sddm\n')
+            setup.write('pacman -Syy --noconfirm --quiet plasma\n')
+            setup.write('pacman -Syy --noconfirm --quiet kde-applications\n')
+            setup.write('pacman -Syy --noconfirm --quiet sddm\n')
             setup.write('systemctl enable sddm\n')
-            setup.write('pacman -Syy --noconfirm ttf-inconsolata\n')
-            setup.write('pacman -Syy --noconfirm ttf-dejavu\n')
-            setup.write('pacman -Syy --noconfirm ttf-font-awesome\n')
-            setup.write('pacman -Syy --noconfirm ttf-joypixels\n')
-            setup.write('pacman -Syy --noconfirm xdg-user-dirs\n')
-            setup.write('pacman -Syy --noconfirm pulseaudio pulseaudio-alsa pavucontrol mpg123 libcdio\n')
+            setup.write('pacman -Syy --noconfirm --quiet ttf-inconsolata\n')
+            setup.write('pacman -Syy --noconfirm --quiet ttf-dejavu\n')
+            setup.write('pacman -Syy --noconfirm --quiet ttf-font-awesome\n')
+            setup.write('pacman -Syy --noconfirm --quiet ttf-joypixels\n')
+            setup.write('pacman -Syy --noconfirm --quiet xdg-user-dirs\n')
+            setup.write('pacman -Syy --noconfirm --quiet pulseaudio pulseaudio-alsa pavucontrol mpg123 libcdio\n')
         if desktop_env == "mate":
-            setup.write('pacman -Syy --noconfirm mate\n')
-            setup.write('pacman -Syy --noconfirm lightdm\n')
-            setup.write('pacman -Syy --noconfirm lightdm-gtk-greeter lightdm-gtk-greeter-settings\n')
+            setup.write('pacman -Syy --noconfirm --quiet mate\n')
+            setup.write('pacman -Syy --noconfirm --quiet lightdm\n')
+            setup.write('pacman -Syy --noconfirm --quiet lightdm-gtk-greeter lightdm-gtk-greeter-settings\n')
             setup.write('systemctl enable lightdm.service\n')
-            setup.write('pacman -Syy --noconfirm ttf-inconsolata\n')
-            setup.write('pacman -Syy --noconfirm ttf-dejavu\n')
-            setup.write('pacman -Syy --noconfirm ttf-font-awesome\n')
-            setup.write('pacman -Syy --noconfirm ttf-joypixels\n')
-            setup.write('pacman -Syy --noconfirm xdg-user-dirs\n')
-            setup.write('pacman -Syy --noconfirm pulseaudio pulseaudio-alsa pavucontrol mpg123 libcdio\n')
+            setup.write('pacman -Syy --noconfirm --quiet ttf-inconsolata\n')
+            setup.write('pacman -Syy --noconfirm --quiet ttf-dejavu\n')
+            setup.write('pacman -Syy --noconfirm --quiet ttf-font-awesome\n')
+            setup.write('pacman -Syy --noconfirm --quiet ttf-joypixels\n')
+            setup.write('pacman -Syy --noconfirm --quiet xdg-user-dirs\n')
+            setup.write('pacman -Syy --noconfirm --quiet pulseaudio pulseaudio-alsa pavucontrol mpg123 libcdio\n')
         if desktop_env == "mate-extra":
-            setup.write('pacman -Syy --noconfirm mate\n')
-            setup.write('pacman -Syy --noconfirm mate-extra\n')
-            setup.write('pacman -Syy --noconfirm lightdm\n')
-            setup.write('pacman -Syy --noconfirm lightdm-gtk-greeter lightdm-gtk-greeter-settings\n')
+            setup.write('pacman -Syy --noconfirm --quiet mate\n')
+            setup.write('pacman -Syy --noconfirm --quiet mate-extra\n')
+            setup.write('pacman -Syy --noconfirm --quiet lightdm\n')
+            setup.write('pacman -Syy --noconfirm --quiet lightdm-gtk-greeter lightdm-gtk-greeter-settings\n')
             setup.write('systemctl enable lightdm.service\n')
-            setup.write('pacman -Syy --noconfirm ttf-inconsolata\n')
-            setup.write('pacman -Syy --noconfirm ttf-dejavu\n')
-            setup.write('pacman -Syy --noconfirm ttf-font-awesome\n')
-            setup.write('pacman -Syy --noconfirm ttf-joypixels\n')
-            setup.write('pacman -Syy --noconfirm xdg-user-dirs\n')
-            setup.write('pacman -Syy --noconfirm pulseaudio pulseaudio-alsa pavucontrol mpg123 libcdio\n')
+            setup.write('pacman -Syy --noconfirm --quiet ttf-inconsolata\n')
+            setup.write('pacman -Syy --noconfirm --quiet ttf-dejavu\n')
+            setup.write('pacman -Syy --noconfirm --quiet ttf-font-awesome\n')
+            setup.write('pacman -Syy --noconfirm --quiet ttf-joypixels\n')
+            setup.write('pacman -Syy --noconfirm --quiet xdg-user-dirs\n')
+            setup.write('pacman -Syy --noconfirm --quiet pulseaudio pulseaudio-alsa pavucontrol mpg123 libcdio\n')
         if desktop_env == "xfce4":
-            setup.write('pacman -Syy --noconfirm xfce4\n')
-            setup.write('pacman -Syy --noconfirm lightdm\n')
-            setup.write('pacman -Syy --noconfirm lightdm-gtk-greeter lightdm-gtk-greeter-settings\n')
+            setup.write('pacman -Syy --noconfirm --quiet xfce4\n')
+            setup.write('pacman -Syy --noconfirm --quiet lightdm\n')
+            setup.write('pacman -Syy --noconfirm --quiet lightdm-gtk-greeter lightdm-gtk-greeter-settings\n')
             setup.write('systemctl enable lightdm.service\n')
-            setup.write('pacman -Syy --noconfirm ttf-inconsolata\n')
-            setup.write('pacman -Syy --noconfirm ttf-dejavu\n')
-            setup.write('pacman -Syy --noconfirm ttf-font-awesome\n')
-            setup.write('pacman -Syy --noconfirm ttf-joypixels\n')
-            setup.write('pacman -Syy --noconfirm xdg-user-dirs\n')
-            setup.write('pacman -Syy --noconfirm pulseaudio pulseaudio-alsa pavucontrol mpg123 libcdio\n')
+            setup.write('pacman -Syy --noconfirm --quiet ttf-inconsolata\n')
+            setup.write('pacman -Syy --noconfirm --quiet ttf-dejavu\n')
+            setup.write('pacman -Syy --noconfirm --quiet ttf-font-awesome\n')
+            setup.write('pacman -Syy --noconfirm --quiet ttf-joypixels\n')
+            setup.write('pacman -Syy --noconfirm --quiet xdg-user-dirs\n')
+            setup.write('pacman -Syy --noconfirm --quiet pulseaudio pulseaudio-alsa pavucontrol mpg123 libcdio\n')
         if desktop_env == "xfce4-extra":
-            setup.write('pacman -Syy --noconfirm xfce4\n')
-            setup.write('pacman -Syy --noconfirm xfce4-goodies\n')
-            setup.write('pacman -Syy --noconfirm lightdm\n')
-            setup.write('pacman -Syy --noconfirm lightdm-gtk-greeter lightdm-gtk-greeter-settings\n')
+            setup.write('pacman -Syy --noconfirm --quiet xfce4\n')
+            setup.write('pacman -Syy --noconfirm --quiet xfce4-goodies\n')
+            setup.write('pacman -Syy --noconfirm --quiet lightdm\n')
+            setup.write('pacman -Syy --noconfirm --quiet lightdm-gtk-greeter lightdm-gtk-greeter-settings\n')
             setup.write('systemctl enable lightdm.service\n')
-            setup.write('pacman -Syy --noconfirm ttf-inconsolata\n')
-            setup.write('pacman -Syy --noconfirm ttf-dejavu\n')
-            setup.write('pacman -Syy --noconfirm ttf-font-awesome\n')
-            setup.write('pacman -Syy --noconfirm ttf-joypixels\n')
-            setup.write('pacman -Syy --noconfirm xdg-user-dirs\n')
-            setup.write('pacman -Syy --noconfirm pulseaudio pulseaudio-alsa pavucontrol mpg123 libcdio\n')
+            setup.write('pacman -Syy --noconfirm --quiet ttf-inconsolata\n')
+            setup.write('pacman -Syy --noconfirm --quiet ttf-dejavu\n')
+            setup.write('pacman -Syy --noconfirm --quiet ttf-font-awesome\n')
+            setup.write('pacman -Syy --noconfirm --quiet ttf-joypixels\n')
+            setup.write('pacman -Syy --noconfirm --quiet xdg-user-dirs\n')
+            setup.write('pacman -Syy --noconfirm --quiet pulseaudio pulseaudio-alsa pavucontrol mpg123 libcdio\n')
         if desktop_env == "cinnamon":
-            setup.write('pacman -Syy --noconfirm cinnamon\n')
-            setup.write('pacman -Syy --noconfirm lightdm\n')
-            setup.write('pacman -Syy --noconfirm lightdm-gtk-greeter lightdm-gtk-greeter-settings\n')
+            setup.write('pacman -Syy --noconfirm --quiet cinnamon\n')
+            setup.write('pacman -Syy --noconfirm --quiet cinnamon-translations\n')
+            setup.write('pacman -Syy --noconfirm --quiet lightdm\n')
+            setup.write('pacman -Syy --noconfirm --quiet lightdm-gtk-greeter lightdm-gtk-greeter-settings\n')
             setup.write('systemctl enable lightdm.service\n')
-            setup.write('pacman -Syy --noconfirm ttf-inconsolata\n')
-            setup.write('pacman -Syy --noconfirm ttf-dejavu\n')
-            setup.write('pacman -Syy --noconfirm ttf-font-awesome\n')
-            setup.write('pacman -Syy --noconfirm ttf-joypixels\n')
-            setup.write('pacman -Syy --noconfirm xdg-user-dirs\n')
-            setup.write('pacman -Syy --noconfirm pulseaudio pulseaudio-alsa pavucontrol mpg123 libcdio\n')
+            setup.write('pacman -Syy --noconfirm --quiet ttf-inconsolata\n')
+            setup.write('pacman -Syy --noconfirm --quiet ttf-dejavu\n')
+            setup.write('pacman -Syy --noconfirm --quiet ttf-font-awesome\n')
+            setup.write('pacman -Syy --noconfirm --quiet ttf-joypixels\n')
+            setup.write('pacman -Syy --noconfirm --quiet xdg-user-dirs\n')
+            setup.write('pacman -Syy --noconfirm --quiet pulseaudio pulseaudio-alsa pavucontrol mpg123 libcdio\n')
 
     setup.write('clear\n')
     setup.write('echo ">> Configuring video driver - if choosed"\n')
     setup.write('read -t 5 -n 1 -s -r -p "Press wait to continue...\n"\n')
     if video_driver != "not choosed":
-        setup.write('pacman -Syy --noconfirm xf86-video-vesa\n')
-        setup.write('pacman -Syy --noconfirm mesa\n')
+        setup.write('pacman -Syy --noconfirm --quiet xf86-video-vesa\n')
+        setup.write('pacman -Syy --noconfirm --quiet mesa\n')
         if video_driver == "nvidia":
-            setup.write('pacman -Syy --noconfirm nvidia-dkms nvidia-utils nvidia-settings\n')
+            setup.write('pacman -Syy --noconfirm --quiet nvidia-dkms nvidia-utils nvidia-settings\n')
         if video_driver == "amd":
-            setup.write('pacman -Syy --noconfirm xf86-video-amdgpu\n')
+            setup.write('pacman -Syy --noconfirm --quiet xf86-video-amdgpu\n')
         if video_driver == "intel":
-            setup.write('pacman -Syy --noconfirm xf86-video-intel\n')
+            setup.write('pacman -Syy --noconfirm --quiet xf86-video-intel\n')
         if video_driver == "virtualbox":
-            setup.write('pacman -Syy --noconfirm virtualbox-guest-utils xf86-video-vmware\n')
+            setup.write('pacman -Syy --noconfirm --quiet virtualbox-guest-utils xf86-video-vmware\n')
             setup.write('systemctl enable vboxservice.service\n')
-        setup.write('pacman -Syy --noconfirm xorg-server xorg-xinit xorg-xrandr arandr xterm\n')
+        setup.write('pacman -Syy --noconfirm --quiet xorg-server xorg-xinit xorg-xrandr arandr xterm\n')
 
     setup.write('clear\n')
     setup.write('echo "> Installing NTFS file system support"\n')
     setup.write('read -t 5 -n 1 -s -r -p "Press wait to continue...\n"\n')
-    setup.write('pacman -Syy --noconfirm ntfs-3g\n')
+    setup.write('pacman -Syy --noconfirm --quiet ntfs-3g\n')
     setup.write('exit\n')
     setup.close()
 

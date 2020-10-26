@@ -1,5 +1,5 @@
 # PyArchLinux
-## version 0.5.3
+## version 0.5.4
 Arch Linux Installer Script in Python 3!<br/>
 ### DISCLAIMER
 This script is provided "as is" - without any WARRANTY!<br/>
